@@ -32,7 +32,7 @@ This approach allows for more flexible and reusable code, enabling partial appli
 - **Currying Functions**: Transform standard Go functions into their curried counterparts.
 - **Uncurrying Functions**: Revert curried functions back to their original form.
 - **Partial Application**: Create new functions by pre-filling some arguments.
-- **Argument Dropping**: Generate functions that ignore certain arguments.
+- **Return Values Dropping**: Ignore first or last function return values.
 
 ## Installation
 
