@@ -5,8 +5,8 @@ package curry
 
 // region Curry
 
-// Curry2 curries a function with two arguments.
-func Curry2[A any, B any, R any](f func(A, B) R) func(A) func(B) R {
+// Two curries a function with two arguments.
+func Two[A any, B any, R any](f func(A, B) R) func(A) func(B) R {
 	return func(a A) func(B) R {
 		return func(b B) R {
 			return f(a, b)
@@ -14,8 +14,8 @@ func Curry2[A any, B any, R any](f func(A, B) R) func(A) func(B) R {
 	}
 }
 
-// Curry3 curries a function with three arguments.
-func Curry3[A any, B any, C any, R any](f func(A, B, C) R) func(A) func(B) func(C) R {
+// Three curries a function with three arguments.
+func Three[A any, B any, C any, R any](f func(A, B, C) R) func(A) func(B) func(C) R {
 	return func(a A) func(B) func(C) R {
 		return func(b B) func(C) R {
 			return func(c C) R {
@@ -25,8 +25,8 @@ func Curry3[A any, B any, C any, R any](f func(A, B, C) R) func(A) func(B) func(
 	}
 }
 
-// Curry4 curries a function with four arguments.
-func Curry4[A any, B any, C any, D any, R any](f func(A, B, C, D) R) func(A) func(B) func(C) func(D) R {
+// Four curries a function with four arguments.
+func Four[A any, B any, C any, D any, R any](f func(A, B, C, D) R) func(A) func(B) func(C) func(D) R {
 	return func(a A) func(B) func(C) func(D) R {
 		return func(b B) func(C) func(D) R {
 			return func(c C) func(D) R {
@@ -38,34 +38,34 @@ func Curry4[A any, B any, C any, D any, R any](f func(A, B, C, D) R) func(A) fun
 	}
 }
 
-// region Curry with error
+// region Curry with 2 RV
 
-// Curry2e curries a function with two arguments.
-func Curry2e[A any, B any, R any](f func(A, B) (R, error)) func(A) func(B) (R, error) {
-	return func(a A) func(B) (R, error) {
-		return func(b B) (R, error) {
+// Two2 curries a function with two arguments and two return values.
+func Two2[A any, B any, RA any, RB any](f func(A, B) (RA, RB)) func(A) func(B) (RA, RB) {
+	return func(a A) func(B) (RA, RB) {
+		return func(b B) (RA, RB) {
 			return f(a, b)
 		}
 	}
 }
 
-// Curry3e curries a function with three arguments.
-func Curry3e[A any, B any, C any, R any](f func(A, B, C) (R, error)) func(A) func(B) func(C) (R, error) {
-	return func(a A) func(B) func(C) (R, error) {
-		return func(b B) func(C) (R, error) {
-			return func(c C) (R, error) {
+// Three2 curries a function with three arguments and two return values.
+func Three2[A any, B any, C any, RA any, RB any](f func(A, B, C) (RA, RB)) func(A) func(B) func(C) (RA, RB) {
+	return func(a A) func(B) func(C) (RA, RB) {
+		return func(b B) func(C) (RA, RB) {
+			return func(c C) (RA, RB) {
 				return f(a, b, c)
 			}
 		}
 	}
 }
 
-// Curry4e curries a function with four arguments.
-func Curry4e[A any, B any, C any, D any, R any](f func(A, B, C, D) (R, error)) func(A) func(B) func(C) func(D) (R, error) {
-	return func(a A) func(B) func(C) func(D) (R, error) {
-		return func(b B) func(C) func(D) (R, error) {
-			return func(c C) func(D) (R, error) {
-				return func(d D) (R, error) {
+// Four2 curries a function with four arguments and two return values.
+func Four2[A any, B any, C any, D any, RA any, RB any](f func(A, B, C, D) (RA, RB)) func(A) func(B) func(C) func(D) (RA, RB) {
+	return func(a A) func(B) func(C) func(D) (RA, RB) {
+		return func(b B) func(C) func(D) (RA, RB) {
+			return func(c C) func(D) (RA, RB) {
+				return func(d D) (RA, RB) {
 					return f(a, b, c, d)
 				}
 			}

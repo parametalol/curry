@@ -5,6 +5,10 @@ import (
 	"testing"
 )
 
+func join1(a string) string {
+	return a
+}
+
 func join2(a, b string) string {
 	return a + b
 }
@@ -15,6 +19,10 @@ func join3(a, b, c string) string {
 
 func join4(a, b, c, d string) string {
 	return a + b + c + d
+}
+
+func join1e(a string) (string, error) {
+	return a, nil
 }
 
 func join2e(a, b string) (string, error) {
@@ -30,60 +38,62 @@ func join4e(a, b, c, d string) (string, error) {
 }
 
 func TestDrop(t *testing.T) {
-	equal(t, 1, DropLast2(1, 2))
-	equal(t, 1, DropLast2(DropLast3(1, 2, 3)))
-	equal(t, 1, DropLast2(DropLast3(DropLast4(1, 2, 3, 4))))
+	equal(t, 1, DropLastOf2(1, 2))
+	equal(t, 1, DropLastOf2(DropLastOf3(1, 2, 3)))
+	equal(t, 1, DropLastOf2(DropLastOf3(DropLastOf4(1, 2, 3, 4))))
 
-	equal(t, 2, DropFirst2(1, 2))
-	equal(t, 3, DropFirst2(DropFirst3(1, 2, 3)))
-	equal(t, 4, DropFirst2(DropFirst3(DropFirst4(1, 2, 3, 4))))
+	equal(t, 2, DropFirstOf2(1, 2))
+	equal(t, 3, DropFirstOf2(DropFirstOf3(1, 2, 3)))
+	equal(t, 4, DropFirstOf2(DropFirstOf3(DropFirstOf4(1, 2, 3, 4))))
 }
 
 func TestCurry(t *testing.T) {
-	equal(t, "ab", Curry2(join2)("a")("b"))
-	equal(t, "abc", Curry3(join3)("a")("b")("c"))
-	equal(t, "abcd", Curry4(join4)("a")("b")("c")("d"))
+	equal(t, "ab", Two(join2)("a")("b"))
+	equal(t, "abc", Three(join3)("a")("b")("c"))
+	equal(t, "abcd", Four(join4)("a")("b")("c")("d"))
 
-	equal(t, "ab", DropLast2(Curry2e(join2e)("a")("b")))
-	equal(t, "abc", DropLast2(Curry3e(join3e)("a")("b")("c")))
-	equal(t, "abcd", DropLast2(Curry4e(join4e)("a")("b")("c")("d")))
+	equal(t, "ab", DropLastOf2(Two2(join2e)("a")("b")))
+	equal(t, "abc", DropLastOf2(Three2(join3e)("a")("b")("c")))
+	equal(t, "abcd", DropLastOf2(Four2(join4e)("a")("b")("c")("d")))
 }
 
 func TestUnCurry(t *testing.T) {
-	curriedJoin := Curry4(join4)
-	equal(t, "abcd", UnCurry4(curriedJoin)("a", "b", "c", "d"))
-	equal(t, "abcd", UnCurry3(curriedJoin)("a", "b", "c")("d"))
-	equal(t, "abcd", UnCurry2(curriedJoin)("a", "b")("c")("d"))
+	curriedJoin := Four(join4)
+	equal(t, "abcd", UnFour(curriedJoin)("a", "b", "c", "d"))
+	equal(t, "abcd", UnThree(curriedJoin)("a", "b", "c")("d"))
+	equal(t, "abcd", UnTwo(curriedJoin)("a", "b")("c")("d"))
 
-	curriedJoinE := Curry4e(join4e)
-	equal(t, "abcd", DropLast2(UnCurry4e(curriedJoinE)("a", "b", "c", "d")))
-	equal(t, "abcd", DropLast2(UnCurry3(curriedJoinE)("a", "b", "c")("d")))
-	equal(t, "abcd", DropLast2(UnCurry2(curriedJoinE)("a", "b")("c")("d")))
+	curriedJoinE := Four2(join4e)
+	equal(t, "abcd", DropLastOf2(UnFour2(curriedJoinE)("a", "b", "c", "d")))
+	equal(t, "abcd", DropLastOf2(UnThree(curriedJoinE)("a", "b", "c")("d")))
+	equal(t, "abcd", DropLastOf2(UnTwo(curriedJoinE)("a", "b")("c")("d")))
 }
 
 func TestBind(t *testing.T) {
-	equal(t, "ab", Bind1st2(join2, "a")("b"))
-	equal(t, "abc", Bind1st3(join3, "a")("b", "c"))
-	equal(t, "abcd", Bind1st4(join4, "a")("b", "c", "d"))
+	equal(t, "a", BindOne(join1, "a")())
+	equal(t, "ab", BindFirstOfTwo(join2, "a")("b"))
+	equal(t, "abc", BindFirstOfThree(join3, "a")("b", "c"))
+	equal(t, "abcd", BindFirstOfFour(join4, "a")("b", "c", "d"))
 
-	equal(t, "ab", DropLast2(Bind1st2e(join2e, "a")("b")))
-	equal(t, "abc", DropLast2(Bind1st3e(join3e, "a")("b", "c")))
-	equal(t, "abcd", DropLast2(Bind1st4e(join4e, "a")("b", "c", "d")))
+	equal(t, "a", DropLastOf2(BindOne2(join1e, "a")()))
+	equal(t, "ab", DropLastOf2(BindFirstOfTwo2(join2e, "a")("b")))
+	equal(t, "abc", DropLastOf2(BindFirstOfThree2(join3e, "a")("b", "c")))
+	equal(t, "abcd", DropLastOf2(BindFirstOfFour2(join4e, "a")("b", "c", "d")))
 
-	equal(t, "ba", BindLast2(join2, "a")("b"))
-	equal(t, "bca", BindLast3(join3, "a")("b", "c"))
-	equal(t, "bcda", BindLast4(join4, "a")("b", "c", "d"))
+	equal(t, "ba", BindLastOfTwo(join2, "a")("b"))
+	equal(t, "bca", BindLastOfThree(join3, "a")("b", "c"))
+	equal(t, "bcda", BindLastOfFour(join4, "a")("b", "c", "d"))
 
-	equal(t, "ba", DropLast2(BindLast2e(join2e, "a")("b")))
-	equal(t, "bca", DropLast2(BindLast3e(join3e, "a")("b", "c")))
-	equal(t, "bcda", DropLast2(BindLast4e(join4e, "a")("b", "c", "d")))
+	equal(t, "ba", DropLastOf2(BindLastOfTwo2(join2e, "a")("b")))
+	equal(t, "bca", DropLastOf2(BindLastOfThree2(join3e, "a")("b", "c")))
+	equal(t, "bcda", DropLastOf2(BindLastOfFour2(join4e, "a")("b", "c", "d")))
 }
 
 func TestCombinations(t *testing.T) {
-	bindFirstTwoOf3 := UnCurry2(Curry3(join3))
+	bindFirstTwoOf3 := UnTwo(Three(join3))
 
 	t.Run("bind 2nd of three", func(t *testing.T) {
-		boundSecondOfThree := UnCurry2(BindLast2(bindFirstTwoOf3, "b"))
+		boundSecondOfThree := UnTwo(BindLastOfTwo(bindFirstTwoOf3, "b"))
 		equal(t, "abc", boundSecondOfThree("a", "c"))
 	})
 
@@ -99,7 +109,7 @@ func TestDifferentTypes(t *testing.T) {
 	f1 := func(int, string) bool {
 		return true
 	}
-	var b = Curry2(f1)(42)("abc")
+	var b bool = Two(f1)(42)("abc")
 	equal(t, true, b)
 
 	testErr := errors.New("err")
@@ -107,20 +117,20 @@ func TestDifferentTypes(t *testing.T) {
 		return true, testErr
 	}
 	var err error
-	b, err = Curry2e(f1e)(42)("abc")
+	b, err = Two2(f1e)(42)("abc")
 	equal(t, true, b)
-	equal(t, testErr, err)
+	equal(t, true, errors.Is(err, testErr))
 
-	b = UnCurry2(Curry2(f1))(42, "abc")
+	b = UnTwo(Two(f1))(42, "abc")
 	equal(t, true, b)
 
-	b, err = UnCurry2e(Curry2e(f1e))(42, "abc")
+	b, err = UnTwo2(Two2(f1e))(42, "abc")
 	equal(t, true, b)
-	equal(t, testErr, err)
+	equal(t, true, errors.Is(err, testErr))
 
-	err = DropFirst2(f1e(42, "abc"))
-	equal(t, testErr, err)
-	b = DropLast2(f1e(42, "abc"))
+	err = DropFirstOf2(f1e(42, "abc"))
+	equal(t, true, errors.Is(err, testErr))
+	b = DropLastOf2(f1e(42, "abc"))
 	equal(t, true, b)
 }
 
