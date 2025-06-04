@@ -2,45 +2,46 @@ package curry_test
 
 import (
 	"fmt"
+
 	"github.com/parametalol/curry"
 )
 
-func ExampleCurry2() {
+func ExampleTwo() {
 	multiply := func(a, b int) int {
 		return a * b
 	}
-	curriedMultiply := curry.Curry2(multiply)
+	curriedMultiply := curry.Two(multiply)
 	multiplyByTwo := curriedMultiply(2)
 	result := multiplyByTwo(5)
 	fmt.Println(result) // Outputs: 10
 }
 
-func ExampleUnCurry2() {
+func ExampleUnTwo() {
 	curriedAdd := func(a int) func(int) int {
 		return func(b int) int {
 			return a + b
 		}
 	}
 
-	uncurriedAdd := curry.UnCurry2(curriedAdd)
+	uncurriedAdd := curry.UnTwo(curriedAdd)
 	result := uncurriedAdd(3, 4)
 	fmt.Println(result) // Outputs: 7
 }
 
-func ExampleBind1st2() {
+func ExampleBindFirstOfTwo() {
 	subtract := func(a, b int) int {
 		return a - b
 	}
 
-	subtractFromTen := curry.Bind1st2(subtract, 10)
+	subtractFromTen := curry.BindFirstOfTwo(subtract, 10)
 	result := subtractFromTen(3)
 	fmt.Println(result) // Outputs: 7
 }
 
-func ExampleDropLast2() {
+func ExampleDropLastOfTwo() {
 	f := func() (int, error) {
 		return 1, nil
 	}
-	result := curry.DropLast2(f())
+	result := curry.DropLastOfTwo(f())
 	fmt.Println(result) // Outputs: 1
 }
