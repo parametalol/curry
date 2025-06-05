@@ -109,7 +109,8 @@ func TestDifferentTypes(t *testing.T) {
 	f1 := func(int, string) bool {
 		return true
 	}
-	var b bool = Two(f1)(42)("abc")
+	var b bool
+	b = Two(f1)(42)("abc")
 	equal(t, true, b)
 
 	testErr := errors.New("err")
