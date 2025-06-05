@@ -1,5 +1,8 @@
 # curry
 
+[![CI](https://github.com/parametalol/curry/actions/workflows/go.yml/badge.svg)](https://github.com/parametalol/curry/actions/workflows/go.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/parametalol/curry.svg)](https://pkg.go.dev/github.com/parametalol/curry) [![Go Report Card](https://goreportcard.com/badge/github.com/parametalol/curry)](https://goreportcard.com/report/github.com/parametalol/curry) [![License](https://img.shields.io/github/license/parametalol/curry)](./LICENSE)
+
+
 A lightweight Go library that brings the power of function currying to your codebase.
 
 ## What is Currying?
