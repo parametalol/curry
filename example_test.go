@@ -2,6 +2,7 @@ package curry_test
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/parametalol/curry"
 )
@@ -44,4 +45,16 @@ func ExampleDropLastOfTwo() {
 	}
 	result := curry.DropLastOfTwo(f())
 	fmt.Println(result) // Output: 1
+}
+
+func ExampleAdaptOne() {
+	i := 0
+	odd := func() bool {
+		i++
+		return i&1 == 0
+	}
+	fmt.Println(slices.DeleteFunc([]int{1, 2, 3, 4, 5},
+		curry.AdaptOne[int, bool](odd)))
+	// Output:
+	// [1 3 5]
 }
