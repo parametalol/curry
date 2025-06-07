@@ -36,6 +36,7 @@ This approach allows for more flexible and reusable code, enabling partial appli
 - **Uncurrying Functions**: Revert curried functions back to their original form.
 - **Partial Application**: Create new functions by pre-filling some arguments.
 - **Return Values Dropping**: Ignore first or last function return values.
+- **Lazy Arguments Evaluation**: Convert function parameters to thunk functions.
 
 ## Installation
 
