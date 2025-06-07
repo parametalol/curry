@@ -34,3 +34,14 @@ func Assert[T comparable](t *testing.T, assertion func() (bool, T, T)) bool {
 	}
 	return true
 }
+
+func AssertAll[T comparable](t *testing.T, assertions ...func() (bool, T, T)) bool {
+	t.Helper()
+	for i, assertion := range assertions {
+		if !Assert(t, assertion) {
+			t.Errorf("(assertion %d)", i)
+			return false
+		}
+	}
+	return true
+}

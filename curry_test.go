@@ -2,6 +2,8 @@ package curry
 
 import (
 	"errors"
+	"fmt"
+	"io"
 	"testing"
 )
 
@@ -37,24 +39,30 @@ func join4e(a, b, c, d string) (string, error) {
 	return a + b + c + d, nil
 }
 
-func TestDrop(t *testing.T) {
-	Assert(t, Equal(1, DropLastOfTwo(1, 2)))
-	Assert(t, Equal(1, DropLastOfTwo(DropLastOfThree(1, 2, 3))))
-	Assert(t, Equal(1, DropLastOfTwo(DropLastOfThree(DropLastOfFour(1, 2, 3, 4)))))
+func TestCurry(t *testing.T) {
+	AssertAll(t, Equal("ab", Two(join2)("a")("b")),
+		Equal("abc", Three(join3)("a")("b")("c")),
+		Equal("abcd", Four(join4)("a")("b")("c")("d")),
 
-	Assert(t, Equal(2, DropFirstOfTwo(1, 2)))
-	Assert(t, Equal(3, DropFirstOfTwo(DropFirstOfThree(1, 2, 3))))
-	Assert(t, Equal(4, DropFirstOfTwo(DropFirstOfThree(DropFirstOfFour(1, 2, 3, 4)))))
+		Equal("ab", DropLastOfTwo(Two2(join2e)("a")("b"))),
+		Equal("abc", DropLastOfTwo(Three2(join3e)("a")("b")("c"))),
+		Equal("abcd", DropLastOfTwo(Four2(join4e)("a")("b")("c")("d"))),
+	)
 }
 
-func TestCurry(t *testing.T) {
-	Assert(t, Equal("ab", Two(join2)("a")("b")))
-	Assert(t, Equal("abc", Three(join3)("a")("b")("c")))
-	Assert(t, Equal("abcd", Four(join4)("a")("b")("c")("d")))
+func TestCurrySlice(t *testing.T) {
+	Assert(t, Equal("- abc - def -",
+		TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")))
+	Assert(t, Equal(13, DropLastOfTwo(
+		TwoSlice2(fmt.Printf)("- %s - %s -")("abc", "def"))))
 
-	Assert(t, Equal("ab", DropLastOfTwo(Two2(join2e)("a")("b"))))
-	Assert(t, Equal("abc", DropLastOfTwo(Three2(join3e)("a")("b")("c"))))
-	Assert(t, Equal("abcd", DropLastOfTwo(Four2(join4e)("a")("b")("c")("d"))))
+	Assert(t, Equal("5: [abc def]",
+		ThreeSlice(func(a string, b int, c ...string) string {
+			return fmt.Sprintf(a, b, c)
+		})("%d: %v")(5)("abc", "def")))
+
+	Assert(t, Equal(13, DropLastOfTwo(
+		ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))))
 }
 
 func TestUnCurry(t *testing.T) {
@@ -69,24 +77,20 @@ func TestUnCurry(t *testing.T) {
 	Assert(t, Equal("abcd", DropLastOfTwo(UnTwo(curriedJoinE)("a", "b")("c")("d"))))
 }
 
-func TestBind(t *testing.T) {
-	Assert(t, Equal("a", BindOne(join1, "a")()))
-	Assert(t, Equal("ab", BindFirstOfTwo(join2, "a")("b")))
-	Assert(t, Equal("abc", BindFirstOfThree(join3, "a")("b", "c")))
-	Assert(t, Equal("abcd", BindFirstOfFour(join4, "a")("b", "c", "d")))
+func TestUnCurrySlice(t *testing.T) {
+	Assert(t, Equal("a-b-c",
+		UnTwoSlice(TwoSlice(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")))
 
-	Assert(t, Equal("a", DropLastOfTwo(BindOne2(join1e, "a")())))
-	Assert(t, Equal("ab", DropLastOfTwo(BindFirstOfTwo2(join2e, "a")("b"))))
-	Assert(t, Equal("abc", DropLastOfTwo(BindFirstOfThree2(join3e, "a")("b", "c"))))
-	Assert(t, Equal("abcd", DropLastOfTwo(BindFirstOfFour2(join4e, "a")("b", "c", "d"))))
+	Assert(t, Equal(13, DropLastOfTwo(
+		UnTwoSlice2(TwoSlice2(fmt.Printf))("- %s - %s -", "abc", "def"))))
 
-	Assert(t, Equal("ba", BindLastOfTwo(join2, "a")("b")))
-	Assert(t, Equal("bca", BindLastOfThree(join3, "a")("b", "c")))
-	Assert(t, Equal("bcda", BindLastOfFour(join4, "a")("b", "c", "d")))
+	Assert(t, Equal("5: [a b]",
+		UnThreeSlice(ThreeSlice(func(a string, b int, c ...string) string {
+			return fmt.Sprintf(a, b, c)
+		}))("%d: %s", 5, "a", "b")))
 
-	Assert(t, Equal("ba", DropLastOfTwo(BindLastOfTwo2(join2e, "a")("b"))))
-	Assert(t, Equal("bca", DropLastOfTwo(BindLastOfThree2(join3e, "a")("b", "c"))))
-	Assert(t, Equal("bcda", DropLastOfTwo(BindLastOfFour2(join4e, "a")("b", "c", "d"))))
+	Assert(t, Equal(5, DropLastOfTwo(
+		UnThreeSlice2(ThreeSlice2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))))
 }
 
 func TestCombinations(t *testing.T) {
