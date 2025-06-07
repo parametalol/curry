@@ -29,31 +29,29 @@ func TestBind(t *testing.T) {
 }
 
 func TestBindSlice(t *testing.T) {
-	Assert(t, Equal("- abc - def -",
-		BindFirstOneSlice(fmt.Sprintf, "- %s - %s -")("abc", "def")))
+	Assert(t,
+		Equal("- abc - def -",
+			BindFirstOneSlice(fmt.Sprintf, "- %s - %s -")("abc", "def")),
 
-	Assert(t, Equal(13, DropLastOfTwo(
-		BindFirstOneSlice2(fmt.Printf, "- %s - %s -")("abc", "def"))))
+		Equal(13, DropLastOfTwo(
+			BindFirstOneSlice2(fmt.Printf, "- %s - %s -")("abc", "def"))),
 
-	Assert(t, Equal("prefix-numbers:[1 2 3]",
-		BindFirstTwoSlice(func(a, b string, c ...int) string {
-			return a + "-" + b + ":" + fmt.Sprint(c)
-		}, "prefix")("numbers", 1, 2, 3)))
+		Equal("42: [a b c]",
+			BindFirstTwoSlice(join2slice, "%d: %v")(42, "a", "b", "c")),
 
-	Assert(t, Equal(8, DropLastOfTwo(
-		BindFirstTwoSlice2(fmt.Fprintf, io.Discard)("%s-%s", "qux", "quux"))))
+		Equal(8, DropLastOfTwo(
+			BindFirstTwoSlice2(fmt.Fprintf, io.Discard)("%s-%s", "qux", "quux"))),
 
-	Assert(t, Equal("- abc - def -",
-		BindLastOneSlice(fmt.Sprintf, "abc", "def")("- %s - %s -")))
+		Equal("- abc - def -",
+			BindLastOneSlice(fmt.Sprintf, "abc", "def")("- %s - %s -")),
 
-	Assert(t, Equal(13, DropLastOfTwo(
-		BindLastOneSlice2(fmt.Printf, "abc", "def")("- %s - %s -"))))
+		Equal(13, DropLastOfTwo(
+			BindLastOneSlice2(fmt.Printf, "abc", "def")("- %s - %s -"))),
 
-	Assert(t, Equal("foo-bar-[1 2 3]",
-		BindLastTwoSlice(func(a, b string, c ...int) string {
-			return a + "-" + b + "-" + fmt.Sprint(c)
-		}, 1, 2, 3)("foo", "bar")))
+		Equal("42: [a b c]",
+			BindLastTwoSlice(join2slice, "a", "b", "c")("%d: %v", 42)),
 
-	Assert(t, Equal(5, DropLastOfTwo(
-		BindLastTwoSlice2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))))
+		Equal(5, DropLastOfTwo(
+			BindLastTwoSlice2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))),
+	)
 }
