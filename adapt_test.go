@@ -7,25 +7,32 @@ import (
 )
 
 func TestAdaptNone(t *testing.T) {
-	Assert(t, NoError(AdaptNone[error](func() {})()))
-	Assert(t, Equal("string", AdaptNone[string](func() string { return "string" })()))
+	Assert(t,
+		NoError(AdaptNone[error](func() {})()),
+		Equal("string", AdaptNone[string](func() string { return "string" })()),
+	)
 }
 
 func TestAdaptOne(t *testing.T) {
-	Assert(t, NoError(AdaptOne[string, error](func() {})("string")))
-	Assert(t, Equal("result", AdaptOne[string, string](func() string { return "result" })("ignored")))
-	Assert(t, Equal("passed result", AdaptOne[string, string](func(passed string) string { return passed + " result" })("passed")))
-	Assert(t, Equal("", AdaptOne[string, string](func(string) {})("ignored")))
+	Assert(t,
+		NoError(AdaptOne[string, error](func() {})("string")),
+		Equal("result", AdaptOne[string, string](func() string { return "result" })("ignored")),
+		Equal("passed result", AdaptOne[string, string](func(passed string) string { return passed + " result" })("passed")),
+		Equal("", AdaptOne[string, string](func(string) {})("ignored")),
+	)
 }
 
 func TestAdaptTwo(t *testing.T) {
 	s := "string"
 
 	testErr := errors.New("test")
-	Assert(t, NoError(AdaptTwo[string, int, error](func() {})(s, 0)))
-	Assert(t, ErrorIs(AdaptTwo[string, int, error](func() error { return testErr })(s, 0), testErr))
-	Assert(t, Equal(5, AdaptTwo[int, int, int](func(a, b int) int { return a + b })(2, 3)))
-	Assert(t, Equal("abc", AdaptTwo[int, string, string](func(b string) string { return b })(2, "abc")))
+
+	Assert(t,
+		NoError(AdaptTwo[string, int, error](func() {})(s, 0)),
+		ErrorIs(AdaptTwo[string, int, error](func() error { return testErr })(s, 0), testErr),
+		Equal(5, AdaptTwo[int, int, int](func(a, b int) int { return a + b })(2, 3)),
+		Equal("abc", AdaptTwo[int, string, string](func(b string) string { return b })(2, "abc")),
+	)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	cancel()

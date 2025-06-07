@@ -7,7 +7,7 @@ import (
 )
 
 func TestBind(t *testing.T) {
-	AssertAll(t,
+	Assert(t,
 		Equal("a", BindOne(join1, "a")()),
 		Equal("ab", BindFirstOfTwo(join2, "a")("b")),
 		Equal("abc", BindFirstOfThree(join3, "a")("b", "c")),

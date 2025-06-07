@@ -39,8 +39,13 @@ func join4e(a, b, c, d string) (string, error) {
 	return a + b + c + d, nil
 }
 
+func join2slice(a string, b int, c ...string) string {
+	return fmt.Sprintf(a, b, c)
+}
+
 func TestCurry(t *testing.T) {
-	AssertAll(t, Equal("ab", Two(join2)("a")("b")),
+	Assert(t,
+		Equal("ab", Two(join2)("a")("b")),
 		Equal("abc", Three(join3)("a")("b")("c")),
 		Equal("abcd", Four(join4)("a")("b")("c")("d")),
 
@@ -51,46 +56,52 @@ func TestCurry(t *testing.T) {
 }
 
 func TestCurrySlice(t *testing.T) {
-	Assert(t, Equal("- abc - def -",
-		TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")))
-	Assert(t, Equal(13, DropLastOfTwo(
-		TwoSlice2(fmt.Printf)("- %s - %s -")("abc", "def"))))
+	Assert(t,
+		Equal("- abc - def -",
+			TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
-	Assert(t, Equal("5: [abc def]",
-		ThreeSlice(func(a string, b int, c ...string) string {
-			return fmt.Sprintf(a, b, c)
-		})("%d: %v")(5)("abc", "def")))
+		Equal(13, DropLastOfTwo(
+			TwoSlice2(fmt.Printf)("- %s - %s -")("abc", "def"))),
 
-	Assert(t, Equal(13, DropLastOfTwo(
-		ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))))
+		Equal("5: [abc def]",
+			ThreeSlice(join2slice)("%d: %v")(5)("abc", "def")),
+
+		Equal(13, DropLastOfTwo(
+			ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
+	)
 }
 
 func TestUnCurry(t *testing.T) {
 	curriedJoin := Four(join4)
-	Assert(t, Equal("abcd", UnFour(curriedJoin)("a", "b", "c", "d")))
-	Assert(t, Equal("abcd", UnThree(curriedJoin)("a", "b", "c")("d")))
-	Assert(t, Equal("abcd", UnTwo(curriedJoin)("a", "b")("c")("d")))
+
+	Assert(t,
+		Equal("abcd", UnFour(curriedJoin)("a", "b", "c", "d")),
+		Equal("abcd", UnThree(curriedJoin)("a", "b", "c")("d")),
+		Equal("abcd", UnTwo(curriedJoin)("a", "b")("c")("d")),
+	)
 
 	curriedJoinE := Four2(join4e)
-	Assert(t, Equal("abcd", DropLastOfTwo(UnFour2(curriedJoinE)("a", "b", "c", "d"))))
-	Assert(t, Equal("abcd", DropLastOfTwo(UnThree(curriedJoinE)("a", "b", "c")("d"))))
-	Assert(t, Equal("abcd", DropLastOfTwo(UnTwo(curriedJoinE)("a", "b")("c")("d"))))
+	Assert(t,
+		Equal("abcd", DropLastOfTwo(UnFour2(curriedJoinE)("a", "b", "c", "d"))),
+		Equal("abcd", DropLastOfTwo(UnThree(curriedJoinE)("a", "b", "c")("d"))),
+		Equal("abcd", DropLastOfTwo(UnTwo(curriedJoinE)("a", "b")("c")("d"))),
+	)
 }
 
 func TestUnCurrySlice(t *testing.T) {
-	Assert(t, Equal("a-b-c",
-		UnTwoSlice(TwoSlice(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")))
+	Assert(t,
+		Equal("a-b-c",
+			UnTwoSlice(TwoSlice(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")),
 
-	Assert(t, Equal(13, DropLastOfTwo(
-		UnTwoSlice2(TwoSlice2(fmt.Printf))("- %s - %s -", "abc", "def"))))
+		Equal(13, DropLastOfTwo(
+			UnTwoSlice2(TwoSlice2(fmt.Printf))("- %s - %s -", "abc", "def"))),
 
-	Assert(t, Equal("5: [a b]",
-		UnThreeSlice(ThreeSlice(func(a string, b int, c ...string) string {
-			return fmt.Sprintf(a, b, c)
-		}))("%d: %s", 5, "a", "b")))
+		Equal("5: [a b]",
+			UnThreeSlice(ThreeSlice(join2slice))("%d: %s", 5, "a", "b")),
 
-	Assert(t, Equal(5, DropLastOfTwo(
-		UnThreeSlice2(ThreeSlice2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))))
+		Equal(5, DropLastOfTwo(
+			UnThreeSlice2(ThreeSlice2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))),
+	)
 }
 
 func TestCombinations(t *testing.T) {
