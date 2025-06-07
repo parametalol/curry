@@ -58,3 +58,32 @@ func ExampleAdaptOne() {
 	// Output:
 	// [1 3 5]
 }
+
+func ExampleThunk() {
+	// Thunk binds return value to a function without parameters.
+	// It can be used for passing static value to functions that accept
+	// functions.
+	message := curry.Thunk("message")
+	fmt.Println(message())
+	// Output: message
+}
+
+func ExampleLazyOne0() {
+
+	process := func(expensive string) {
+		fmt.Println("That was", expensive)
+	}
+	expensive := func() string {
+		fmt.Println("Computing...")
+		return "expensive "
+	}
+
+	defer curry.LazyOne0(process)(expensive)
+
+	fmt.Println("The expensive process argument hasn't been computed yet.")
+
+	// Output:
+	// The expensive process argument hasn't been computed yet.
+	// Computing...
+	// That was expensive
+}
