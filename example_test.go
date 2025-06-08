@@ -59,12 +59,14 @@ func ExampleAdaptOne() {
 	// [1 3 5]
 }
 
-func ExampleThunk() {
-	// Thunk binds return value to a function without parameters.
+func ExampleReturn() {
+	// Return binds return value to a function without parameters.
 	// It can be used for passing static value to functions that accept
 	// functions.
-	message := curry.Thunk("message")
-	fmt.Println(message())
+	f := func(fn func() string) {
+		fmt.Println(fn())
+	}
+	f(curry.Return("message"))
 	// Output: message
 }
 
