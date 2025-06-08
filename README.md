@@ -46,7 +46,7 @@ go get github.com/parametalol/curry
 
 ## Usage
 
-See ./example_test.go for usages.
+See [examples](./example_test.go) for usages.
 
 
 ## Contributing
