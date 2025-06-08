@@ -2,19 +2,19 @@ package curry
 
 // generic type alias requires GOEXPERIMENT=aliastypeparams
 // type normalizedFuncNone[RV any] = func() RV
-// type normalizedFuncOne[A any, RV any] = func(A) RV
-// type normalizedFuncTwo[A any, B any, RV any] = func(A, B) RV
+// type normalizedFuncOne[A, RV any] = func(A) RV
+// type normalizedFuncTwo[A, B, RV any] = func(A, B) RV
 
 type FuncNone[RV any] interface {
 	~func() RV | ~func()
 }
 
-type FuncOne[A any, RV any] interface {
+type FuncOne[A, RV any] interface {
 	~func(A) RV | ~func(A) |
 		FuncNone[RV]
 }
 
-type FuncTwo[A any, B any, RV any] interface {
+type FuncTwo[A, B, RV any] interface {
 	~func(A, B) RV | ~func(A, B) |
 		FuncOne[A, RV] | FuncOne[B, RV]
 }
@@ -35,7 +35,7 @@ func AdaptNone[RV any, Fn FuncNone[RV]](f Fn) func() RV {
 }
 
 // AdaptOne adapts the given function f to the `func(A) RV` signature.
-func AdaptOne[A any, RV any, Fn FuncOne[A, RV]](f Fn) func(A) RV {
+func AdaptOne[A, RV any, Fn FuncOne[A, RV]](f Fn) func(A) RV {
 	switch t := any(f).(type) {
 	case func(A) RV:
 		return t
@@ -60,7 +60,7 @@ func AdaptOne[A any, RV any, Fn FuncOne[A, RV]](f Fn) func(A) RV {
 }
 
 // AdaptTwo adapts the given function f to the `func(A, B) RV` signature.
-func AdaptTwo[A any, B any, RV any, Fn FuncTwo[A, B, RV]](f Fn) func(A, B) RV {
+func AdaptTwo[A, B, RV any, Fn FuncTwo[A, B, RV]](f Fn) func(A, B) RV {
 	switch t := any(f).(type) {
 	case func(A, B) RV:
 		return t
