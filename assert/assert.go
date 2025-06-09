@@ -1,4 +1,4 @@
-package curry
+package assert
 
 import (
 	"errors"
@@ -27,7 +27,7 @@ func NoError(err error) Assertion {
 	return func() (bool, any, any) { return err == nil, nil, err }
 }
 
-func Assert(t *testing.T, assertions ...Assertion) bool {
+func That(t *testing.T, assertions ...Assertion) bool {
 	t.Helper()
 	ok := true
 	for i, assertion := range assertions {

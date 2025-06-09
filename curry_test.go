@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"testing"
+
+	"github.com/parametalol/curry/assert"
 )
 
 func join1(a string) string {
@@ -44,29 +46,29 @@ func join2slice(a string, b int, c ...string) string {
 }
 
 func TestCurry(t *testing.T) {
-	Assert(t,
-		Equal("ab", Two(join2)("a")("b")),
-		Equal("abc", Three(join3)("a")("b")("c")),
-		Equal("abcd", Four(join4)("a")("b")("c")("d")),
+	assert.That(t,
+		assert.Equal("ab", Two(join2)("a")("b")),
+		assert.Equal("abc", Three(join3)("a")("b")("c")),
+		assert.Equal("abcd", Four(join4)("a")("b")("c")("d")),
 
-		Equal("ab", DropLastOfTwo(Two2(join2e)("a")("b"))),
-		Equal("abc", DropLastOfTwo(Three2(join3e)("a")("b")("c"))),
-		Equal("abcd", DropLastOfTwo(Four2(join4e)("a")("b")("c")("d"))),
+		assert.Equal("ab", DropLastOfTwo(Two2(join2e)("a")("b"))),
+		assert.Equal("abc", DropLastOfTwo(Three2(join3e)("a")("b")("c"))),
+		assert.Equal("abcd", DropLastOfTwo(Four2(join4e)("a")("b")("c")("d"))),
 	)
 }
 
 func TestCurrySlice(t *testing.T) {
-	Assert(t,
-		Equal("- abc - def -",
+	assert.That(t,
+		assert.Equal("- abc - def -",
 			TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
-		Equal(13, DropLastOfTwo(
+		assert.Equal(13, DropLastOfTwo(
 			TwoSlice2(fmt.Printf)("- %s - %s -")("abc", "def"))),
 
-		Equal("5: [abc def]",
+		assert.Equal("5: [abc def]",
 			ThreeSlice(join2slice)("%d: %v")(5)("abc", "def")),
 
-		Equal(13, DropLastOfTwo(
+		assert.Equal(13, DropLastOfTwo(
 			ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
 	)
 }
@@ -76,12 +78,12 @@ func TestCombinations(t *testing.T) {
 
 	t.Run("bind 2nd of three", func(t *testing.T) {
 		boundSecondOfThree := UnTwo(BindLastOfTwo(bindFirstTwoOf3, "b"))
-		Assert(t, Equal("abc", boundSecondOfThree("a", "c")))
+		assert.That(t, assert.Equal("abc", boundSecondOfThree("a", "c")))
 	})
 
 	t.Run("bind first two of three", func(t *testing.T) {
 		boundFirstTwo := bindFirstTwoOf3("a", "b")
-		Assert(t, Equal("abc", boundFirstTwo("c")))
+		assert.That(t, assert.Equal("abc", boundFirstTwo("c")))
 	})
 
 }
@@ -93,7 +95,7 @@ func TestDifferentTypes(t *testing.T) {
 	}
 	var b bool
 	b = Two(f1)(42)("abc")
-	Assert(t, True(b))
+	assert.That(t, assert.True(b))
 
 	testErr := errors.New("err")
 	f1e := func(int, string) (bool, error) {
@@ -101,18 +103,18 @@ func TestDifferentTypes(t *testing.T) {
 	}
 	var err error
 	b, err = Two2(f1e)(42)("abc")
-	Assert(t, True(b))
-	Assert(t, ErrorIs(err, testErr))
+	assert.That(t, assert.True(b))
+	assert.That(t, assert.ErrorIs(err, testErr))
 
 	b = UnTwo(Two(f1))(42, "abc")
-	Assert(t, True(b))
+	assert.That(t, assert.True(b))
 
 	b, err = UnTwo2(Two2(f1e))(42, "abc")
-	Assert(t, True(b))
-	Assert(t, ErrorIs(err, testErr))
+	assert.That(t, assert.True(b))
+	assert.That(t, assert.ErrorIs(err, testErr))
 
 	err = DropFirstOfTwo(f1e(42, "abc"))
-	Assert(t, ErrorIs(err, testErr))
+	assert.That(t, assert.ErrorIs(err, testErr))
 	b = DropLastOfTwo(f1e(42, "abc"))
-	Assert(t, True(b))
+	assert.That(t, assert.True(b))
 }
