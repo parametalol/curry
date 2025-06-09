@@ -17,6 +17,19 @@ func TestGenerate(t *testing.T) {
 	))
 }
 
+func TestRange(t *testing.T) {
+	assert.That(t,
+		assert.EqualSlices(
+			[]int{5, 7, 9, 11, 13},
+			slices.Collect(Range(5, 15, 2)),
+		),
+		assert.EqualSlices(
+			[]int{},
+			slices.Collect(Range(5, 5, 1)),
+		),
+	)
+}
+
 func TestAccumulate(t *testing.T) {
 	five := Take(5, Accumulate(1, func(i uint, a int) int { return a + int(i) }))
 

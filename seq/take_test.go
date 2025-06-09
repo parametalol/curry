@@ -70,3 +70,41 @@ func TestTail(t *testing.T) {
 		)
 	})
 }
+
+func TestFilter(t *testing.T) {
+	odd := func(i int) bool { return i&1 == 1 }
+
+	i := []int{1, 2, 3, 4, 5}
+	assert.That(t,
+		assert.EqualSlices([]int{1, 3, 5},
+			slices.Collect(
+				Filter(slices.Values(i), odd))),
+
+		assert.EqualSlices([]int{}, slices.Collect(
+			Filter(slices.Values([]int{}), odd))),
+	)
+}
+
+func TestMap(t *testing.T) {
+	mul := func(i int) int { return i * 2 }
+
+	i := []int{1, 2, 3, 4, 5}
+	assert.That(t,
+		assert.EqualSlices([]int{2, 4, 6, 8, 10},
+			slices.Collect(
+				Map(slices.Values(i), mul))),
+
+		assert.EqualSlices([]int{},
+			slices.Collect(
+				Map(slices.Values([]int{}), mul))),
+	)
+}
+
+func TestUntil(t *testing.T) {
+	i := []int{1, 2, 3, 4, 5}
+	assert.That(t,
+		assert.EqualSlices([]int{1, 2, 3},
+			slices.Collect(
+				Until(slices.Values(i), func(i int) bool { return i > 3 }))),
+	)
+}
