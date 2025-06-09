@@ -1,5 +1,7 @@
 package curry
 
+func Same[A any](a A) A { return a }
+
 // region Return
 
 func Return[A any](a A) func() A {

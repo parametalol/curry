@@ -2,6 +2,7 @@ package assert
 
 import (
 	"errors"
+	"slices"
 	"testing"
 )
 
@@ -17,6 +18,14 @@ func False(actual bool) Assertion {
 
 func Equal[T comparable](expected, actual T) Assertion {
 	return func() (bool, any, any) { return expected == actual, expected, actual }
+}
+
+func EqualSlices[U []T, T comparable](expected, actual U) Assertion {
+	return EqualFunc(expected, actual, slices.Equal)
+}
+
+func EqualFunc[T any](expected, actual T, cmp func(a, b T) bool) Assertion {
+	return func() (bool, any, any) { return cmp(expected, actual), expected, actual }
 }
 
 func ErrorIs(err, target error) Assertion {

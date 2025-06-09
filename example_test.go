@@ -5,6 +5,7 @@ import (
 	"slices"
 
 	"github.com/parametalol/curry"
+	"github.com/parametalol/curry/seq"
 )
 
 func ExampleTwo() {
@@ -68,6 +69,11 @@ func ExampleReturn() {
 	}
 	f(curry.Return("message"))
 	// Output: message
+}
+
+func ExampleSame() {
+	fmt.Println(slices.Collect(seq.Take(5, seq.Generate(curry.Same))))
+	// Output: [0 1 2 3 4]
 }
 
 func ExampleLazyOne0() {
