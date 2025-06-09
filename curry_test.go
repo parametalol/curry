@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strconv"
 	"testing"
 
 	"github.com/parametalol/curry/assert"
@@ -41,8 +42,13 @@ func join4e(a, b, c, d string) (string, error) {
 	return a + b + c + d, nil
 }
 
-func join2slice(a string, b int, c ...string) string {
-	return fmt.Sprintf(a, b, c)
+func testFmt2(format string, b ...any) (int, string) {
+	result := fmt.Sprintf(format, b...)
+	return len(result), result
+}
+
+func join2slice(format string, b int64, c ...any) string {
+	return strconv.FormatInt(b, 10) + ": " + fmt.Sprintf(format, c...)
 }
 
 func TestCurry(t *testing.T) {
@@ -63,10 +69,10 @@ func TestCurrySlice(t *testing.T) {
 			TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
 		assert.Equal(13, DropLastOfTwo(
-			TwoSlice2(fmt.Printf)("- %s - %s -")("abc", "def"))),
+			TwoSlice2(testFmt2)("- %s - %s -")("abc", "def"))),
 
-		assert.Equal("5: [abc def]",
-			ThreeSlice(join2slice)("%d: %v")(5)("abc", "def")),
+		assert.Equal("5: abc def",
+			ThreeSlice(join2slice)("%s %s")(5)("abc", "def")),
 
 		assert.Equal(13, DropLastOfTwo(
 			ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),

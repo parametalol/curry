@@ -3,6 +3,27 @@ package curry
 // region UnCurry
 
 // UnTwo transforms a curried function with two arguments back into its original form.
+func UnTwo0[A, B any](f func(A) func(B)) func(A, B) {
+	return func(a A, b B) {
+		f(a)(b)
+	}
+}
+
+// UnThree transforms a curried function with three arguments back into its original form.
+func UnThree0[A, B, C any](f func(A) func(B) func(C)) func(A, B, C) {
+	return func(a A, b B, c C) {
+		f(a)(b)(c)
+	}
+}
+
+// UnFour transforms a curried function with four arguments back into its original form.
+func UnFour0[A, B, C, D any](f func(A) func(B) func(C) func(D)) func(A, B, C, D) {
+	return func(a A, b B, c C, d D) {
+		f(a)(b)(c)(d)
+	}
+}
+
+// UnTwo transforms a curried function with two arguments back into its original form.
 func UnTwo[A, B, R any](f func(A) func(B) R) func(A, B) R {
 	return func(a A, b B) R {
 		return f(a)(b)

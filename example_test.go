@@ -62,17 +62,21 @@ func ExampleAdaptOne() {
 
 func ExampleReturn() {
 	// Return binds return value to a function without parameters.
-	// It can be used for passing static value to functions that accept
-	// functions.
-	f := func(fn func() string) {
-		fmt.Println(fn())
+	// It can be used for binding a value to lazy functions.
+	f := func(a string, b string) {
+		fmt.Println(a, b)
 	}
-	f(curry.Return("message"))
-	// Output: message
+	lazyF := curry.LazyTwo0(f)
+	// Bind "first":
+	lazyBound := curry.BindFirstOfTwo0(
+		lazyF, curry.Return("first"))
+
+	lazyBound(curry.Return("second"))
+	// Output: first second
 }
 
-func ExampleSame() {
-	fmt.Println(slices.Collect(seq.Take(5, seq.Generate(curry.Same))))
+func ExamplePass() {
+	fmt.Println(slices.Collect(seq.Take(5, seq.Generate(curry.Pass))))
 	// Output: [0 1 2 3 4]
 }
 

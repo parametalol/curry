@@ -8,6 +8,14 @@ import (
 	"github.com/parametalol/curry/assert"
 )
 
+func TestPass(t *testing.T) {
+	assert.That(t,
+		assert.Equal("abc", Pass("abc")),
+		assert.Equal("abc", DropLastOfTwo(PassTwo("abc", 45))),
+		assert.Equal(45, DropFirstOfTwo(PassTwo("abc", 45))),
+	)
+}
+
 func TestReturn(t *testing.T) {
 	assert.That(t, assert.Equal("abc", Return("abc")()))
 	a, b := Return2("abc", 123)()

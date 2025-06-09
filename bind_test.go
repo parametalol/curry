@@ -36,10 +36,10 @@ func TestBindSlice(t *testing.T) {
 			BindFirstOneSlice(fmt.Sprintf, "- %s - %s -")("abc", "def")),
 
 		assert.Equal(13, DropLastOfTwo(
-			BindFirstOneSlice2(fmt.Printf, "- %s - %s -")("abc", "def"))),
+			BindFirstOneSlice2(testFmt2, "- %s - %s -")("abc", "def"))),
 
-		assert.Equal("42: [a b c]",
-			BindFirstTwoSlice(join2slice, "%d: %v")(42, "a", "b", "c")),
+		assert.Equal("42: a b c",
+			BindFirstTwoSlice(join2slice, "%s %s %s")(42, "a", "b", "c")),
 
 		assert.Equal(8, DropLastOfTwo(
 			BindFirstTwoSlice2(fmt.Fprintf, io.Discard)("%s-%s", "qux", "quux"))),
@@ -48,10 +48,10 @@ func TestBindSlice(t *testing.T) {
 			BindLastOneSlice(fmt.Sprintf, "abc", "def")("- %s - %s -")),
 
 		assert.Equal(13, DropLastOfTwo(
-			BindLastOneSlice2(fmt.Printf, "abc", "def")("- %s - %s -"))),
+			BindLastOneSlice2(testFmt2, "abc", "def")("- %s - %s -"))),
 
-		assert.Equal("42: [a b c]",
-			BindLastTwoSlice(join2slice, "a", "b", "c")("%d: %v", 42)),
+		assert.Equal("42: a b c",
+			BindLastTwoSlice(join2slice, "a", "b", "c")("%s %s %s", 42)),
 
 		assert.Equal(5, DropLastOfTwo(
 			BindLastTwoSlice2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))),

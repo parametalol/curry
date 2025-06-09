@@ -1,6 +1,9 @@
 package curry
 
-func Same[A any](a A) A { return a }
+// region Pass
+
+func Pass[A any](a A) A                 { return a }
+func PassTwo[A, B any](a A, b B) (A, B) { return a, b }
 
 // region Return
 

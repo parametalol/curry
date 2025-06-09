@@ -31,15 +31,15 @@ func TestUnCurrySlice(t *testing.T) {
 			UnTwoSlice(TwoSlice(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")),
 
 		assert.Equal(13, DropLastOfTwo(
-			UnTwoSlice2(TwoSlice2(fmt.Printf))("- %s - %s -", "abc", "def"))),
+			UnTwoSlice2(TwoSlice2(testFmt2))("- %s - %s -", "abc", "def"))),
 
-		assert.Equal("5: [a b]",
-			UnThreeSlice(ThreeSlice(join2slice))("%d: %s", 5, "a", "b")),
+		assert.Equal("5: a b",
+			UnThreeSlice(ThreeSlice(join2slice))("%s %s", 5, "a", "b")),
 
 		assert.Equal(5, DropLastOfTwo(
 			UnThreeSlice2(ThreeSlice2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))),
 
-		assert.Equal("5: [a b]",
-			UnTwo(ThreeSlice(join2slice))("%d: %s", 5)("a", "b")),
+		assert.Equal("5: a b",
+			UnTwo(ThreeSlice(join2slice))("%s %s", 5)("a", "b")),
 	)
 }
