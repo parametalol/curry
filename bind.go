@@ -2,6 +2,12 @@ package curry
 
 // region BindOne
 
+func BindOne0[A any](f func(A), a A) func() {
+	return func() {
+		f(a)
+	}
+}
+
 func BindOne[A, R any](f func(A) R, a A) func() R {
 	return func() R {
 		return f(a)
@@ -14,7 +20,21 @@ func BindOne2[A, RA, RB any](f func(A) (RA, RB), a A) func() (RA, RB) {
 	}
 }
 
-// region BindFirst
+// region BindFirst with 0 RV
+
+func BindFirstOfTwo0[A, B any](f func(A, B), a A) func(B) {
+	return Two0(f)(a)
+}
+
+func BindFirstOfThree0[A, B, C any](f func(A, B, C), a A) func(B, C) {
+	return UnTwo0(Three0(f)(a))
+}
+
+func BindFirstOfFour0[A, B, C, D any](f func(A, B, C, D), a A) func(B, C, D) {
+	return UnThree0(Four0(f)(a))
+}
+
+// region BindFirst with 1 RV
 
 func BindFirstOfTwo[A, B, R any](f func(A, B) R, a A) func(B) R {
 	return Two(f)(a)
@@ -42,7 +62,27 @@ func BindFirstOfFour2[A, B, C, D, RA, RB any](f func(A, B, C, D) (RA, RB), a A) 
 	return UnThree2(Four2(f)(a))
 }
 
-// region BindLast
+// region BindLast with 0 RV
+
+func BindLastOfTwo0[A, B any](f func(A, B), b B) func(A) {
+	return func(a A) {
+		f(a, b)
+	}
+}
+
+func BindLastOfThree0[A, B, C any](f func(A, B, C), c C) func(A, B) {
+	return func(a A, b B) {
+		f(a, b, c)
+	}
+}
+
+func BindLastOfFour0[A, B, C, D any](f func(A, B, C, D), d D) func(A, B, C) {
+	return func(a A, b B, c C) {
+		f(a, b, c, d)
+	}
+}
+
+// region BindLast with 1 RV
 
 func BindLastOfTwo[A, B, R any](f func(A, B) R, b B) func(A) R {
 	return func(a A) R {
@@ -84,6 +124,12 @@ func BindLastOfFour2[A, B, C, D, RA, RB any](f func(A, B, C, D) (RA, RB), d D) f
 
 // region BindFirst*Slice
 
+func BindFirstOneSlice0[A, B any](f func(A, ...B), a A) func(...B) {
+	return func(b ...B) {
+		f(a, b...)
+	}
+}
+
 func BindFirstOneSlice[A, B, RV any](f func(A, ...B) RV, a A) func(...B) RV {
 	return func(b ...B) RV {
 		return f(a, b...)
@@ -110,6 +156,12 @@ func BindFirstTwoSlice2[A, B, C, RA, RB any](f func(A, B, ...C) (RA, RB), a A) f
 
 // region BindLast*Slice
 
+func BindLastOneSlice0[A, B any](f func(A, ...B), b ...B) func(A) {
+	return func(a A) {
+		f(a, b...)
+	}
+}
+
 func BindLastOneSlice[A, B, RV any](f func(A, ...B) RV, b ...B) func(A) RV {
 	return func(a A) RV {
 		return f(a, b...)
@@ -119,6 +171,12 @@ func BindLastOneSlice[A, B, RV any](f func(A, ...B) RV, b ...B) func(A) RV {
 func BindLastOneSlice2[A, B, RA, RB any](f func(A, ...B) (RA, RB), b ...B) func(A) (RA, RB) {
 	return func(a A) (RA, RB) {
 		return f(a, b...)
+	}
+}
+
+func BindLastTwoSlice0[A, B, C any](f func(A, B, ...C), c ...C) func(A, B) {
+	return func(a A, b B) {
+		f(a, b, c...)
 	}
 }
 

@@ -6,6 +6,39 @@ package curry
 // region Curry
 
 // Two curries a function with two arguments.
+func Two0[A, B any](f func(A, B)) func(A) func(B) {
+	return func(a A) func(B) {
+		return func(b B) {
+			f(a, b)
+		}
+	}
+}
+
+// Three curries a function with three arguments.
+func Three0[A, B, C any](f func(A, B, C)) func(A) func(B) func(C) {
+	return func(a A) func(B) func(C) {
+		return func(b B) func(C) {
+			return func(c C) {
+				f(a, b, c)
+			}
+		}
+	}
+}
+
+// Four curries a function with four arguments.
+func Four0[A, B, C, D any](f func(A, B, C, D)) func(A) func(B) func(C) func(D) {
+	return func(a A) func(B) func(C) func(D) {
+		return func(b B) func(C) func(D) {
+			return func(c C) func(D) {
+				return func(d D) {
+					f(a, b, c, d)
+				}
+			}
+		}
+	}
+}
+
+// Two curries a function with two arguments.
 func Two[A, B, R any](f func(A, B) R) func(A) func(B) R {
 	return func(a A) func(B) R {
 		return func(b B) R {

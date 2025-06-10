@@ -1,5 +1,10 @@
 package curry
 
+// region Pass
+
+func Pass[A any](a A) A                 { return a }
+func PassTwo[A, B any](a A, b B) (A, B) { return a, b }
+
 // region Return
 
 func Return[A any](a A) func() A {
