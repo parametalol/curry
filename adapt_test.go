@@ -3,6 +3,7 @@ package curry
 import (
 	"context"
 	"errors"
+	"strings"
 	"testing"
 
 	"github.com/parametalol/curry/assert"
@@ -21,6 +22,7 @@ func TestAdaptOne(t *testing.T) {
 		assert.Equal("result", AdaptOne[string, string](func() string { return "result" })("ignored")),
 		assert.Equal("passed result", AdaptOne[string, string](func(passed string) string { return passed + " result" })("passed")),
 		assert.Equal("", AdaptOne[string, string](func(string) {})("ignored")),
+		assert.Equal("", AdaptOneF(strings.Clone, func(string) {})("ignored")),
 	)
 }
 
@@ -34,6 +36,7 @@ func TestAdaptTwo(t *testing.T) {
 		assert.ErrorIs(AdaptTwo[string, int, error](func() error { return testErr })(s, 0), testErr),
 		assert.Equal(5, AdaptTwo[int, int, int](func(a, b int) int { return a + b })(2, 3)),
 		assert.Equal("abc", AdaptTwo[int, string, string](func(b string) string { return b })(2, "abc")),
+		assert.Equal("abc", AdaptTwoF(func(int, string) string { return "" }, func(b string) string { return b })(2, "abc")),
 	)
 
 	ctx, cancel := context.WithCancel(context.Background())

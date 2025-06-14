@@ -103,3 +103,23 @@ func AdaptTwo[A, B, RV any, Fn FuncTwo[A, B, RV]](f Fn) func(A, B) RV {
 	}
 	panic("unsupported function signature")
 }
+
+// region AdaptF
+
+// AdaptNoneF deduces the target function signature from the first
+// unused argument.
+func AdaptNoneF[RV any, Fn FuncNone[RV]](_ func() RV, f Fn) func() RV {
+	return AdaptNone[RV](f)
+}
+
+// AdaptOneF deduces the target function signature from the first
+// unused argument.
+func AdaptOneF[A, RV any, Fn FuncOne[A, RV]](_ func(A) RV, f Fn) func(A) RV {
+	return AdaptOne[A, RV](f)
+}
+
+// AdaptTwoF deduces the target function signature from the first
+// unused argument.
+func AdaptTwoF[A, B, RV any, Fn FuncTwo[A, B, RV]](_ func(A, B) RV, f Fn) func(A, B) RV {
+	return AdaptTwo[A, B, RV](f)
+}
