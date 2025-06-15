@@ -4,8 +4,8 @@ import (
 	"iter"
 )
 
-func Take[A any](n uint, seq iter.Seq[A]) iter.Seq[A] {
-	return func(yield func(A) bool) {
+func Take[Value any](n uint, seq iter.Seq[Value]) iter.Seq[Value] {
+	return func(yield func(Value) bool) {
 		next, stop := iter.Pull(seq)
 		defer stop()
 		for range n {
@@ -17,10 +17,10 @@ func Take[A any](n uint, seq iter.Seq[A]) iter.Seq[A] {
 	}
 }
 
-func Tail[A any](seq iter.Seq[A]) (A, bool, iter.Seq[A]) {
+func Tail[Value any](seq iter.Seq[Value]) (Value, bool, iter.Seq[Value]) {
 	next, stop := iter.Pull(seq)
 	v, ok := next()
-	return v, ok, func(yield func(A) bool) {
+	return v, ok, func(yield func(Value) bool) {
 		defer stop()
 		for ok {
 			v, ok = next()
@@ -31,8 +31,8 @@ func Tail[A any](seq iter.Seq[A]) (A, bool, iter.Seq[A]) {
 	}
 }
 
-func Filter[A any](seq iter.Seq[A], f func(A) bool) iter.Seq[A] {
-	return func(yield func(A) bool) {
+func Filter[Value any](seq iter.Seq[Value], f func(Value) bool) iter.Seq[Value] {
+	return func(yield func(Value) bool) {
 		for v := range seq {
 			if f(v) && !yield(v) {
 				return
@@ -41,8 +41,8 @@ func Filter[A any](seq iter.Seq[A], f func(A) bool) iter.Seq[A] {
 	}
 }
 
-func Map[A any](seq iter.Seq[A], f func(A) A) iter.Seq[A] {
-	return func(yield func(A) bool) {
+func Map[Value any](seq iter.Seq[Value], f func(Value) Value) iter.Seq[Value] {
+	return func(yield func(Value) bool) {
 		for v := range seq {
 			if !yield(f(v)) {
 				return
@@ -51,8 +51,8 @@ func Map[A any](seq iter.Seq[A], f func(A) A) iter.Seq[A] {
 	}
 }
 
-func Until[A any](seq iter.Seq[A], f func(A) bool) iter.Seq[A] {
-	return func(yield func(A) bool) {
+func Until[Value any](seq iter.Seq[Value], f func(Value) bool) iter.Seq[Value] {
+	return func(yield func(Value) bool) {
 		for v := range seq {
 			if f(v) || !yield(v) {
 				return
@@ -61,9 +61,16 @@ func Until[A any](seq iter.Seq[A], f func(A) bool) iter.Seq[A] {
 	}
 }
 
-func Purge[A any](seq iter.Seq[A]) (i int) {
+func Purge[Value any](seq iter.Seq[Value]) (i int) {
 	for range seq {
 		i++
+	}
+	return
+}
+
+func Last[Value any](seq iter.Seq[Value]) (result Value) {
+	for v := range seq {
+		result = v
 	}
 	return
 }

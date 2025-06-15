@@ -117,3 +117,13 @@ func TestPurge(t *testing.T) {
 			Purge(slices.Values([]int{}))),
 	)
 }
+
+func TestLast(t *testing.T) {
+	assert.That(t,
+		assert.Equal(4,
+			Last(Take(5, Generate(Index(0))))),
+
+		assert.Equal(0,
+			Last(slices.Values([]int{}))),
+	)
+}

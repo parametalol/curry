@@ -8,12 +8,9 @@ import (
 )
 
 func TestGenerate(t *testing.T) {
-
-	g := Generate(func(i uint) int { return int(i) })
-
 	assert.That(t, assert.EqualSlices(
 		[]int{0, 1, 2, 3, 4},
-		slices.Collect(Take(5, g)),
+		slices.Collect(Take(5, Generate(Index(0)))),
 	))
 }
 
@@ -30,11 +27,20 @@ func TestRange(t *testing.T) {
 	)
 }
 
-func TestAccumulate(t *testing.T) {
-	five := Take(5, Accumulate(1, func(i uint, a int) int { return a + int(i) }))
+func TestGenerator(t *testing.T) {
+	runes := []rune{}
+	five := Take(5, Generate(
+		Generator(&runes,
+			func(a *[]rune) int {
+				(*a) = append((*a), '.')
+				return len(*a)
+			})))
 
-	assert.That(t, assert.EqualSlices(
-		[]int{1, 2, 4, 7, 11},
-		slices.Collect(five)),
+	assert.That(t,
+		assert.EqualSlices(
+			[]int{1, 2, 3, 4, 5},
+			slices.Collect(five)),
+
+		assert.Equal(".....", string(runes)),
 	)
 }
