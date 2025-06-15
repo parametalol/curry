@@ -60,3 +60,10 @@ func Until[A any](seq iter.Seq[A], f func(A) bool) iter.Seq[A] {
 		}
 	}
 }
+
+func Purge[A any](seq iter.Seq[A]) (i int) {
+	for range seq {
+		i++
+	}
+	return
+}

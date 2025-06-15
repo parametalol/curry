@@ -108,3 +108,12 @@ func TestUntil(t *testing.T) {
 				Until(slices.Values(i), func(i int) bool { return i > 3 }))),
 	)
 }
+
+func TestPurge(t *testing.T) {
+	assert.That(t,
+		assert.Equal(4,
+			Purge(slices.Values([]int{2, 4, 7, 9}))),
+		assert.Equal(0,
+			Purge(slices.Values([]int{}))),
+	)
+}
