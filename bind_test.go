@@ -57,3 +57,13 @@ func TestBindSlice(t *testing.T) {
 			BindLastTwoSlice2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))),
 	)
 }
+
+func TestBindOne0(t *testing.T) {
+	i := 0
+	set := func(j int) {
+		i = j
+	}
+	set5 := BindOne0(set, 5)
+	set5()
+	assert.That(t, assert.Equal(5, i))
+}
