@@ -2,7 +2,7 @@ package seq
 
 import "iter"
 
-// Generate a sequnce by calling the passed generator function.
+// Generate a sequence by calling the passed generator function.
 func Generate[Value any](generator func() Value) iter.Seq[Value] {
 	return func(yield func(Value) bool) {
 		for yield(generator()) {
