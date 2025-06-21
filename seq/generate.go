@@ -36,3 +36,38 @@ func Index[I ~int | ~uint](i I) func() I {
 		return i - 1
 	}
 }
+
+func Zip[A, B any](a iter.Seq[A], b iter.Seq[B]) iter.Seq2[A, B] {
+	nextA, stopA := iter.Pull(a)
+	nextB, stopB := iter.Pull(b)
+	return func(yield func(A, B) bool) {
+		defer stopA()
+		defer stopB()
+		for {
+			a, okA := nextA()
+			b, okB := nextB()
+			if !okA && !okB || !yield(a, b) {
+				break
+			}
+		}
+	}
+}
+
+func ZipShort[A, B any](a iter.Seq[A], b iter.Seq[B]) iter.Seq2[A, B] {
+	nextA, stopA := iter.Pull(a)
+	nextB, stopB := iter.Pull(b)
+	return func(yield func(A, B) bool) {
+		defer stopA()
+		defer stopB()
+		for {
+			a, ok := nextA()
+			if !ok {
+				break
+			}
+			b, ok := nextB()
+			if !ok || !yield(a, b) {
+				break
+			}
+		}
+	}
+}

@@ -2,6 +2,7 @@ package seq
 
 import (
 	"slices"
+	"strconv"
 	"testing"
 
 	"github.com/parametalol/curry/assert"
@@ -100,6 +101,20 @@ func TestMap(t *testing.T) {
 	)
 }
 
+func TestMap15(t *testing.T) {
+	mul := func(a, b int) int { return a * b }
+
+	i := map[int]int{2: 5}
+	assert.That(t,
+		assert.EqualSlices([]int{10},
+			slices.Collect(Map15(FromMap(i), mul))),
+
+		assert.EqualSlices([]int{},
+			slices.Collect(
+				Map15(FromMap(map[string]int{}), func(string, int) int { return 0 }))),
+	)
+}
+
 func TestUntil(t *testing.T) {
 	i := []int{1, 2, 3, 4, 5}
 	assert.That(t,
@@ -109,12 +124,19 @@ func TestUntil(t *testing.T) {
 	)
 }
 
-func TestPurge(t *testing.T) {
+func TestAccumulate(t *testing.T) {
+	length := func(_, i int) int { return i + 1 }
 	assert.That(t,
 		assert.Equal(4,
-			Purge(slices.Values([]int{2, 4, 7, 9}))),
+			Accumulate(slices.Values([]int{2, 4, 7, 9}), length)),
 		assert.Equal(0,
-			Purge(slices.Values([]int{}))),
+			Accumulate(slices.Values([]int{}), length)),
+
+		assert.EqualSlices([]byte("2479"),
+			Accumulate(slices.Values([]int64{2, 4, 7, 9}),
+				func(v int64, a []byte) []byte {
+					return strconv.AppendInt(a, v, 10)
+				})),
 	)
 }
 
