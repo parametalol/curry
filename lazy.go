@@ -2,19 +2,28 @@ package curry
 
 // region Pass
 
-func Pass[A any](a A) A                 { return a }
+// Pass just returns the only argument.
+func Pass[A any](a A) A { return a }
+
+// PassTwo just returns the both arguments.
 func PassTwo[A, B any](a A, b B) (A, B) { return a, b }
 
 // region Return
 
+// Return takes an argument and constructs a thunk function that returns the
+// argument.
 func Return[A any](a A) func() A {
 	return func() A { return a }
 }
 
+// Return2 takes two arguments and constructs a thunk function that returns
+// these arguments.
 func Return2[A, B any](a A, b B) func() (A, B) {
 	return func() (A, B) { return a, b }
 }
 
+// ReturnSlice takes a variable number of arguments of any type and returns a
+// thunk function, that returns a slice containing the arguments.
 func ReturnSlice[A any](a ...A) func() []A {
 	return func() []A { return a }
 }

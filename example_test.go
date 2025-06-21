@@ -3,9 +3,9 @@ package curry_test
 import (
 	"fmt"
 	"slices"
+	"strings"
 
 	"github.com/parametalol/curry"
-	"github.com/parametalol/curry/seq"
 )
 
 func ExampleTwo() {
@@ -75,11 +75,6 @@ func ExampleReturn() {
 	// Output: first second
 }
 
-func ExamplePass() {
-	fmt.Println(slices.Collect(seq.Take(5, seq.Generate(curry.Pass))))
-	// Output: [0 1 2 3 4]
-}
-
 func ExampleLazyOne0() {
 
 	process := func(expensive string) {
@@ -90,6 +85,8 @@ func ExampleLazyOne0() {
 		return "expensive "
 	}
 
+	// The expensive process argument is not computed right now, but only when
+	// defer executes.
 	defer curry.LazyOne0(process)(expensive)
 
 	fmt.Println("The expensive process argument hasn't been computed yet.")
@@ -98,4 +95,30 @@ func ExampleLazyOne0() {
 	// The expensive process argument hasn't been computed yet.
 	// Computing...
 	// That was expensive
+}
+
+func ExampleWrap() {
+	// isValue(string) int is a function that compares a string to "value".
+	isValue := curry.BindLastOfTwo(strings.Compare, "value")
+
+	// Construct a chain of processors that returns true if a given string
+	// is equal to "value" ignoring case when trimmed.
+	// Pass in the end is just for the next lines alignment.
+	chain := curry.Wrap(curry.Wrap(curry.Wrap(curry.Pass(
+		strings.TrimSpace, // string -> string
+	), strings.ToLower, // string -> string
+	), isValue, // string -> int
+	), curry.Eq(0), // int -> bool
+	)
+
+	// This is equal to:
+	//	 chain := func(s string) bool {
+	//	 	return strings.Compare(
+	//	 		strings.ToLower(
+	//	 			strings.TrimSpace(s)), "value") == 0
+	//	 }
+
+	fmt.Println(chain("test"), chain("  VALUE  "))
+	// Output:
+	// false true
 }
