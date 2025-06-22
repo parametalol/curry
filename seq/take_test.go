@@ -1,6 +1,7 @@
 package seq
 
 import (
+	"maps"
 	"slices"
 	"strconv"
 	"testing"
@@ -107,11 +108,11 @@ func TestMap15(t *testing.T) {
 	i := map[int]int{2: 5}
 	assert.That(t,
 		assert.EqualSlices([]int{10},
-			slices.Collect(Map15(FromMap(i), mul))),
+			slices.Collect(Map15(maps.All(i), mul))),
 
 		assert.EqualSlices([]int{},
 			slices.Collect(
-				Map15(FromMap(map[string]int{}), func(string, int) int { return 0 }))),
+				Map15(maps.All(map[string]int{}), func(string, int) int { return 0 }))),
 	)
 }
 
