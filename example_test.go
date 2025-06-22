@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/parametalol/curry"
+	"github.com/parametalol/curry/seq"
 )
 
 func ExampleTwo() {
@@ -100,6 +101,7 @@ func ExampleLazyOne0() {
 func ExampleWrap() {
 	// isValue(string) int is a function that compares a string to "value".
 	isValue := curry.BindLastOfTwo(strings.Compare, "value")
+	isZero := curry.Two(curry.Eq[int])(0)
 
 	// Construct a chain of processors that returns true if a given string
 	// is equal to "value" ignoring case when trimmed.
@@ -108,7 +110,7 @@ func ExampleWrap() {
 		strings.TrimSpace, // string -> string
 	), strings.ToLower, // string -> string
 	), isValue, // string -> int
-	), curry.Eq(0), // int -> bool
+	), isZero, // int -> bool
 	)
 
 	// This is equal to:
@@ -121,4 +123,29 @@ func ExampleWrap() {
 	fmt.Println(chain("test"), chain("  VALUE  "))
 	// Output:
 	// false true
+}
+
+func ExampleNot() {
+	fruits := []string{"banana", "banana", "orange", "banana"}
+
+	isBanana := curry.BindFirstOfTwo(curry.Eq, "banana")
+
+	notBanana := curry.Wrap(isBanana, curry.Not)
+
+	fmt.Println(slices.Collect(
+		seq.Filter(slices.Values(fruits),
+			notBanana),
+	))
+	// Output:
+	// [orange]
+}
+
+func ExampleLenString() {
+	isEmpty := curry.Wrap(
+		curry.LenString[string],
+		curry.BindFirstOfTwo(curry.Eq, 0))
+
+	fmt.Println(isEmpty(""), isEmpty("abc"))
+	// Output:
+	// true false
 }

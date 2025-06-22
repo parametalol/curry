@@ -1,16 +1,39 @@
 package curry
 
 import (
+	"cmp"
 	"testing"
 
 	"github.com/parametalol/curry/assert"
 )
 
 func TestEq(t *testing.T) {
-	isFive := Eq(5)
+	isFive := Two(Eq[int])(5)
 
 	assert.That(t,
 		assert.True(isFive(5)),
 		assert.False(isFive(15)),
+	)
+}
+
+func TestNot(t *testing.T) {
+	assert.That(t,
+		assert.True(Not(false)),
+		assert.False(Not(true)),
+
+		assert.True(Wrap(
+			BindLastOfTwo(cmp.Less, 5),
+			Not)(7)),
+	)
+}
+
+func TestLen(t *testing.T) {
+	type kindOfString string
+
+	assert.That(t,
+		assert.Equal(3, LenString("abc")),
+		assert.Equal(3, LenString(kindOfString("abc"))),
+		assert.Equal(3, LenSlice([]int{2, 4, 6})),
+		assert.Equal(3, LenMap(map[string]string{"a": "b", "c": "d", "e": "f"})),
 	)
 }
