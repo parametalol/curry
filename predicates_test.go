@@ -22,7 +22,7 @@ func TestNot(t *testing.T) {
 		assert.False(Not(true)),
 
 		assert.True(Wrap(
-			BindLastOfTwo(cmp.Less, 5),
+			BindLastOf2R(cmp.Less, 5),
 			Not)(7)),
 	)
 }

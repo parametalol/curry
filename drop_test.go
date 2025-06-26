@@ -7,14 +7,14 @@ import (
 )
 
 func TestDrop(t *testing.T) {
-	DropOne("dropped")
+	DropFirstOf1("dropped")
 	assert.That(t,
-		assert.Equal(1, DropLastOfTwo(1, 2)),
-		assert.Equal(1, DropLastOfTwo(DropLastOfThree(1, 2, 3))),
-		assert.Equal(1, DropLastOfTwo(DropLastOfThree(DropLastOfFour(1, 2, 3, 4)))),
+		assert.Equal(1, DropLastOf2(1, 2)),
+		assert.Equal(1, DropLastOf2(DropLastOf3(1, 2, 3))),
+		assert.Equal(1, DropLastOf2(DropLastOf3(DropLastOf4(1, 2, 3, 4)))),
 
-		assert.Equal(2, DropFirstOfTwo(1, 2)),
-		assert.Equal(3, DropFirstOfTwo(DropFirstOfThree(1, 2, 3))),
-		assert.Equal(4, DropFirstOfTwo(DropFirstOfThree(DropFirstOfFour(1, 2, 3, 4)))),
+		assert.Equal(2, DropFirstOf2(1, 2)),
+		assert.Equal(3, DropFirstOf2(DropFirstOf3(1, 2, 3))),
+		assert.Equal(4, DropFirstOf2(DropFirstOf3(DropFirstOf4(1, 2, 3, 4)))),
 	)
 }

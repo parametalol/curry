@@ -9,7 +9,7 @@ import (
 func TestSignature(t *testing.T) {
 	assert.That(t,
 		assert.Equal(0,
-			SignatureNone(BindOne(Pass, 10)).RV1),
+			SignatureNone(Bind1R(Pass, 10)).RV1),
 
 		assert.Equal(rune(0),
 			SignatureOne(Pass[rune]).Arg1),

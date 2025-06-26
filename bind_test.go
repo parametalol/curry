@@ -10,60 +10,60 @@ import (
 
 func TestBind(t *testing.T) {
 	assert.That(t,
-		assert.Equal("a", BindOne(join1, "a")()),
-		assert.Equal("ab", BindFirstOfTwo(join2, "a")("b")),
-		assert.Equal("abc", BindFirstOfThree(join3, "a")("b", "c")),
-		assert.Equal("abcd", BindFirstOfFour(join4, "a")("b", "c", "d")),
+		assert.Equal("a", Bind1R(join1, "a")()),
+		assert.Equal("ab", BindFirstOf2R(join2, "a")("b")),
+		assert.Equal("abc", BindFirstOf3R(join3, "a")("b", "c")),
+		assert.Equal("abcd", BindFirstOf4R(join4, "a")("b", "c", "d")),
 
-		assert.Equal("a", DropLastOfTwo(BindOne2(join1e, "a")())),
-		assert.Equal("ab", DropLastOfTwo(BindFirstOfTwo2(join2e, "a")("b"))),
-		assert.Equal("abc", DropLastOfTwo(BindFirstOfThree2(join3e, "a")("b", "c"))),
-		assert.Equal("abcd", DropLastOfTwo(BindFirstOfFour2(join4e, "a")("b", "c", "d"))),
+		assert.Equal("a", DropLastOf2(Bind1R2(join1e, "a")())),
+		assert.Equal("ab", DropLastOf2(BindFirstOf2R2(join2e, "a")("b"))),
+		assert.Equal("abc", DropLastOf2(BindFirstOf3R2(join3e, "a")("b", "c"))),
+		assert.Equal("abcd", DropLastOf2(BindFirstOf4R2(join4e, "a")("b", "c", "d"))),
 
-		assert.Equal("ba", BindLastOfTwo(join2, "a")("b")),
-		assert.Equal("bca", BindLastOfThree(join3, "a")("b", "c")),
-		assert.Equal("bcda", BindLastOfFour(join4, "a")("b", "c", "d")),
+		assert.Equal("ba", BindLastOf2R(join2, "a")("b")),
+		assert.Equal("bca", BindLastOf3R(join3, "a")("b", "c")),
+		assert.Equal("bcda", BindLastOf4R(join4, "a")("b", "c", "d")),
 
-		assert.Equal("ba", DropLastOfTwo(BindLastOfTwo2(join2e, "a")("b"))),
-		assert.Equal("bca", DropLastOfTwo(BindLastOfThree2(join3e, "a")("b", "c"))),
-		assert.Equal("bcda", DropLastOfTwo(BindLastOfFour2(join4e, "a")("b", "c", "d"))),
+		assert.Equal("ba", DropLastOf2(BindLastOf2R2(join2e, "a")("b"))),
+		assert.Equal("bca", DropLastOf2(BindLastOf3R2(join3e, "a")("b", "c"))),
+		assert.Equal("bcda", DropLastOf2(BindLastOf4R2(join4e, "a")("b", "c", "d"))),
 	)
 }
 
 func TestBindSlice(t *testing.T) {
 	assert.That(t,
 		assert.Equal("- abc - def -",
-			BindFirstOneSlice(fmt.Sprintf, "- %s - %s -")("abc", "def")),
+			BindFirstOf2SR(fmt.Sprintf, "- %s - %s -")("abc", "def")),
 
-		assert.Equal(13, DropLastOfTwo(
-			BindFirstOneSlice2(testFmt2, "- %s - %s -")("abc", "def"))),
+		assert.Equal(13, DropLastOf2(
+			BindFirstOf2SR2(testFmt2, "- %s - %s -")("abc", "def"))),
 
 		assert.Equal("42: a b c",
-			BindFirstTwoSlice(join2slice, "%s %s %s")(42, "a", "b", "c")),
+			BindFirstOf3SR(join2slice, "%s %s %s")(42, "a", "b", "c")),
 
-		assert.Equal(8, DropLastOfTwo(
-			BindFirstTwoSlice2(fmt.Fprintf, io.Discard)("%s-%s", "qux", "quux"))),
+		assert.Equal(8, DropLastOf2(
+			BindFirstOf3SR2(fmt.Fprintf, io.Discard)("%s-%s", "qux", "quux"))),
 
 		assert.Equal("- abc - def -",
-			BindLastOneSlice(fmt.Sprintf, "abc", "def")("- %s - %s -")),
+			BindLastOf2SR(fmt.Sprintf, "abc", "def")("- %s - %s -")),
 
-		assert.Equal(13, DropLastOfTwo(
-			BindLastOneSlice2(testFmt2, "abc", "def")("- %s - %s -"))),
+		assert.Equal(13, DropLastOf2(
+			BindLastOf2SR2(testFmt2, "abc", "def")("- %s - %s -"))),
 
 		assert.Equal("42: a b c",
-			BindLastTwoSlice(join2slice, "a", "b", "c")("%s %s %s", 42)),
+			BindLastOf3SR(join2slice, "a", "b", "c")("%s %s %s", 42)),
 
-		assert.Equal(5, DropLastOfTwo(
-			BindLastTwoSlice2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))),
+		assert.Equal(5, DropLastOf2(
+			BindLastOf3SR2(fmt.Fprintf, 1, 2, 3)(io.Discard, "%d-%d-%d"))),
 	)
 }
 
-func TestBindOne0(t *testing.T) {
+func TestBind1(t *testing.T) {
 	i := 0
 	set := func(j int) {
 		i = j
 	}
-	set5 := BindOne0(set, 5)
+	set5 := Bind1(set, 5)
 	set5()
 	assert.That(t, assert.Equal(5, i))
 }

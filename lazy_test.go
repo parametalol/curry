@@ -11,8 +11,8 @@ import (
 func TestPass(t *testing.T) {
 	assert.That(t,
 		assert.Equal("abc", Pass("abc")),
-		assert.Equal("abc", DropLastOfTwo(PassTwo("abc", 45))),
-		assert.Equal(45, DropFirstOfTwo(PassTwo("abc", 45))),
+		assert.Equal("abc", DropLastOf2(PassTwo("abc", 45))),
+		assert.Equal(45, DropFirstOf2(PassTwo("abc", 45))),
 	)
 }
 
@@ -112,35 +112,35 @@ func TestLazy2(t *testing.T) {
 		compute := func(s string) (string, bool) {
 			return s + s, true
 		}
-		assert.That(t, assert.True(DropFirstOfTwo(
+		assert.That(t, assert.True(DropFirstOf2(
 			LazyOne2(compute)(Return("string")))))
 	})
 	t.Run("LazyTwo2", func(t *testing.T) {
 		compute := func(s1, s2 string) (string, bool) {
 			return s1 + s2, true
 		}
-		assert.That(t, assert.True(DropFirstOfTwo(
+		assert.That(t, assert.True(DropFirstOf2(
 			LazyTwo2(compute)(Return("abc"), Return("def")))))
 	})
 	t.Run("LazyThree2", func(t *testing.T) {
 		compute := func(s1, s2 string, i int) (string, bool) {
 			return s1 + s2 + strconv.FormatInt(int64(i), 16), true
 		}
-		assert.That(t, assert.True(DropFirstOfTwo(
+		assert.That(t, assert.True(DropFirstOf2(
 			LazyThree2(compute)(Return("abc"), Return("def"), Return(123)))))
 	})
 	t.Run("LazyFour2", func(t *testing.T) {
 		compute := func(s1, s2 string, i int, b bool) (string, bool) {
 			return s1 + s2 + strconv.FormatInt(int64(i), 16) + strconv.FormatBool(b), true
 		}
-		assert.That(t, assert.True(DropFirstOfTwo(
+		assert.That(t, assert.True(DropFirstOf2(
 			LazyFour2(compute)(Return("abc"), Return("def"), Return(123), Return(true)))))
 	})
 	t.Run("LazyAll2", func(t *testing.T) {
 		compute := func(a ...string) (string, bool) {
 			return strings.Join(a, ", "), true
 		}
-		assert.That(t, assert.True(DropFirstOfTwo(
+		assert.That(t, assert.True(DropFirstOf2(
 			LazyAll2(compute)(ReturnSlice("abc", "def")))))
 	})
 }

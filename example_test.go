@@ -36,7 +36,7 @@ func ExampleBindFirstOfTwo() {
 		return a - b
 	}
 
-	subtractFromTen := curry.BindFirstOfTwo(subtract, 10)
+	subtractFromTen := curry.BindFirstOf2R(subtract, 10)
 	result := subtractFromTen(3)
 	fmt.Println(result) // Output: 7
 }
@@ -45,7 +45,7 @@ func ExampleDropLastOfTwo() {
 	f := func() (int, error) {
 		return 1, nil
 	}
-	result := curry.DropLastOfTwo(f())
+	result := curry.DropLastOf2(f())
 	fmt.Println(result) // Output: 1
 }
 
@@ -69,7 +69,7 @@ func ExampleReturn() {
 	}
 	lazyF := curry.LazyTwo0(f)
 	// Bind "first":
-	lazyBound := curry.BindFirstOfTwo0(
+	lazyBound := curry.BindFirstOf2(
 		lazyF, curry.Return("first"))
 
 	lazyBound(curry.Return("second"))
@@ -100,7 +100,7 @@ func ExampleLazyOne0() {
 
 func ExampleWrap() {
 	// isValue(string) int is a function that compares a string to "value".
-	isValue := curry.BindLastOfTwo(strings.Compare, "value")
+	isValue := curry.BindLastOf2R(strings.Compare, "value")
 	isZero := curry.Two(curry.Eq[int])(0)
 
 	// Construct a chain of processors that returns true if a given string
@@ -128,7 +128,7 @@ func ExampleWrap() {
 func ExampleNot() {
 	fruits := []string{"banana", "banana", "orange", "banana"}
 
-	isBanana := curry.BindFirstOfTwo(curry.Eq, "banana")
+	isBanana := curry.BindFirstOf2R(curry.Eq, "banana")
 
 	notBanana := curry.Wrap(isBanana, curry.Not)
 
@@ -143,7 +143,7 @@ func ExampleNot() {
 func ExampleLenString() {
 	isEmpty := curry.Wrap(
 		curry.LenString[string],
-		curry.BindFirstOfTwo(curry.Eq, 0))
+		curry.BindFirstOf2R(curry.Eq, 0))
 
 	fmt.Println(isEmpty(""), isEmpty("abc"))
 	// Output:

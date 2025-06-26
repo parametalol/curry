@@ -57,9 +57,9 @@ func TestCurry(t *testing.T) {
 		assert.Equal("abc", Three(join3)("a")("b")("c")),
 		assert.Equal("abcd", Four(join4)("a")("b")("c")("d")),
 
-		assert.Equal("ab", DropLastOfTwo(Two2(join2e)("a")("b"))),
-		assert.Equal("abc", DropLastOfTwo(Three2(join3e)("a")("b")("c"))),
-		assert.Equal("abcd", DropLastOfTwo(Four2(join4e)("a")("b")("c")("d"))),
+		assert.Equal("ab", DropLastOf2(Two2(join2e)("a")("b"))),
+		assert.Equal("abc", DropLastOf2(Three2(join3e)("a")("b")("c"))),
+		assert.Equal("abcd", DropLastOf2(Four2(join4e)("a")("b")("c")("d"))),
 	)
 }
 
@@ -68,13 +68,13 @@ func TestCurrySlice(t *testing.T) {
 		assert.Equal("- abc - def -",
 			TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
-		assert.Equal(13, DropLastOfTwo(
+		assert.Equal(13, DropLastOf2(
 			TwoSlice2(testFmt2)("- %s - %s -")("abc", "def"))),
 
 		assert.Equal("5: abc def",
 			ThreeSlice(join2slice)("%s %s")(5)("abc", "def")),
 
-		assert.Equal(13, DropLastOfTwo(
+		assert.Equal(13, DropLastOf2(
 			ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
 	)
 }
@@ -83,7 +83,7 @@ func TestCombinations(t *testing.T) {
 	bindFirstTwoOf3 := UnTwo(Three(join3))
 
 	t.Run("bind 2nd of three", func(t *testing.T) {
-		boundSecondOfThree := UnTwo(BindLastOfTwo(bindFirstTwoOf3, "b"))
+		boundSecondOfThree := UnTwo(BindLastOf2R(bindFirstTwoOf3, "b"))
 		assert.That(t, assert.Equal("abc", boundSecondOfThree("a", "c")))
 	})
 
@@ -119,8 +119,8 @@ func TestDifferentTypes(t *testing.T) {
 	assert.That(t, assert.True(b))
 	assert.That(t, assert.ErrorIs(err, testErr))
 
-	err = DropFirstOfTwo(f1e(42, "abc"))
+	err = DropFirstOf2(f1e(42, "abc"))
 	assert.That(t, assert.ErrorIs(err, testErr))
-	b = DropLastOfTwo(f1e(42, "abc"))
+	b = DropLastOf2(f1e(42, "abc"))
 	assert.That(t, assert.True(b))
 }
