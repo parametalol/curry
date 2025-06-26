@@ -1,4 +1,5 @@
-{{- if ne .N 1 -}}
+
+{{- if ne .N 1}}
 // region: Reverse{{.N}}
 
 // Reverse{{.N}}R the order of the parameters of a function returning one value.
@@ -21,4 +22,4 @@ func Reverse{{.N}}[{{template "Gen" .}}](fn func({{ range $i, $a := .Args }}{{if
 		fn({{ range $i, $a := .Args }}{{if $i}}, {{end}}{{$a.Name}}{{end}})
 	}
 }
-{{ end }}
+{{end -}}

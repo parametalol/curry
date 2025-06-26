@@ -92,4 +92,3 @@ func Reverse5[T0, T1, T2, T3, T4 any](fn func(T0, T1, T2, T3, T4)) func(T4, T3, 
 		fn(arg0, arg1, arg2, arg3, arg4)
 	}
 }
-
