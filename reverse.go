@@ -11,8 +11,8 @@ func Reverse2R[T0, T1, R any](fn func(T0, T1) R) func(T1, T0) R {
 }
 
 // Reverse2R2 the order of the parameters of a function returning two values.
-func Reverse2R2[T0, T1, R1, R2 any](fn func(T0, T1) (R1, R2)) func(T1, T0) (R1, R2) {
-    return func(arg1 T1, arg0 T0) (R1, R2) {
+func Reverse2R2[T0, T1, R0, R1 any](fn func(T0, T1) (R0, R1)) func(T1, T0) (R0, R1) {
+    return func(arg1 T1, arg0 T0) (R0, R1) {
         return fn(arg0, arg1)
     }
 }
@@ -34,8 +34,8 @@ func Reverse3R[T0, T1, T2, R any](fn func(T0, T1, T2) R) func(T2, T1, T0) R {
 }
 
 // Reverse3R2 the order of the parameters of a function returning two values.
-func Reverse3R2[T0, T1, T2, R1, R2 any](fn func(T0, T1, T2) (R1, R2)) func(T2, T1, T0) (R1, R2) {
-    return func(arg2 T2, arg1 T1, arg0 T0) (R1, R2) {
+func Reverse3R2[T0, T1, T2, R0, R1 any](fn func(T0, T1, T2) (R0, R1)) func(T2, T1, T0) (R0, R1) {
+    return func(arg2 T2, arg1 T1, arg0 T0) (R0, R1) {
         return fn(arg0, arg1, arg2)
     }
 }
@@ -57,8 +57,8 @@ func Reverse4R[T0, T1, T2, T3, R any](fn func(T0, T1, T2, T3) R) func(T3, T2, T1
 }
 
 // Reverse4R2 the order of the parameters of a function returning two values.
-func Reverse4R2[T0, T1, T2, T3, R1, R2 any](fn func(T0, T1, T2, T3) (R1, R2)) func(T3, T2, T1, T0) (R1, R2) {
-    return func(arg3 T3, arg2 T2, arg1 T1, arg0 T0) (R1, R2) {
+func Reverse4R2[T0, T1, T2, T3, R0, R1 any](fn func(T0, T1, T2, T3) (R0, R1)) func(T3, T2, T1, T0) (R0, R1) {
+    return func(arg3 T3, arg2 T2, arg1 T1, arg0 T0) (R0, R1) {
         return fn(arg0, arg1, arg2, arg3)
     }
 }
@@ -80,8 +80,8 @@ func Reverse5R[T0, T1, T2, T3, T4, R any](fn func(T0, T1, T2, T3, T4) R) func(T4
 }
 
 // Reverse5R2 the order of the parameters of a function returning two values.
-func Reverse5R2[T0, T1, T2, T3, T4, R1, R2 any](fn func(T0, T1, T2, T3, T4) (R1, R2)) func(T4, T3, T2, T1, T0) (R1, R2) {
-    return func(arg4 T4, arg3 T3, arg2 T2, arg1 T1, arg0 T0) (R1, R2) {
+func Reverse5R2[T0, T1, T2, T3, T4, R0, R1 any](fn func(T0, T1, T2, T3, T4) (R0, R1)) func(T4, T3, T2, T1, T0) (R0, R1) {
+    return func(arg4 T4, arg3 T3, arg2 T2, arg1 T1, arg0 T0) (R0, R1) {
         return fn(arg0, arg1, arg2, arg3, arg4)
     }
 }

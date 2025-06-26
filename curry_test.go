@@ -53,13 +53,13 @@ func join2slice(format string, b int64, c ...any) string {
 
 func TestCurry(t *testing.T) {
 	assert.That(t,
-		assert.Equal("ab", Two(join2)("a")("b")),
-		assert.Equal("abc", Three(join3)("a")("b")("c")),
-		assert.Equal("abcd", Four(join4)("a")("b")("c")("d")),
+		assert.Equal("ab", Curry2R(join2)("a")("b")),
+		assert.Equal("abc", Curry3R(join3)("a")("b")("c")),
+		assert.Equal("abcd", Curry4R(join4)("a")("b")("c")("d")),
 
-		assert.Equal("ab", DropLastOf2(Two2(join2e)("a")("b"))),
-		assert.Equal("abc", DropLastOf2(Three2(join3e)("a")("b")("c"))),
-		assert.Equal("abcd", DropLastOf2(Four2(join4e)("a")("b")("c")("d"))),
+		assert.Equal("ab", DropLastOf2(Curry2R2(join2e)("a")("b"))),
+		assert.Equal("abc", DropLastOf2(Curry3R2(join3e)("a")("b")("c"))),
+		assert.Equal("abcd", DropLastOf2(Curry4R2(join4e)("a")("b")("c")("d"))),
 	)
 }
 

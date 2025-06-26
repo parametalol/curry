@@ -9,10 +9,6 @@ import (
 	"text/template"
 )
 
-var (
-	templates = []string{"bind", "drop", "reverse"}
-)
-
 type Arg struct {
 	I    int
 	Name string
@@ -37,7 +33,11 @@ func main() {
 	}
 	rargs := slices.Clone(args)
 	slices.Reverse(rargs)
-	tmpl := template.Must(template.ParseFiles("generator/templates/" + name + ".go.tpl"))
+	tmpl := template.Must(template.ParseFiles(
+		"generator/templates/"+name+".go.tpl",
+		"generator/templates/common.go.tpl",
+	))
+
 	file, err := os.Create(fmt.Sprintf("%s.go", name))
 	if err != nil {
 		panic(err)
