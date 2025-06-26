@@ -13,7 +13,7 @@ func ExampleTwo() {
 	multiply := func(a, b int) int {
 		return a * b
 	}
-	curriedMultiply := curry.Two(multiply)
+	curriedMultiply := curry.Curry2R(multiply)
 	multiplyByTwo := curriedMultiply(2)
 	result := multiplyByTwo(5)
 	fmt.Println(result) // Output: 10
@@ -26,7 +26,7 @@ func ExampleUnTwo() {
 		}
 	}
 
-	uncurriedAdd := curry.UnTwo(curriedAdd)
+	uncurriedAdd := curry.Un2R(curriedAdd)
 	result := uncurriedAdd(3, 4)
 	fmt.Println(result) // Output: 7
 }
@@ -101,7 +101,7 @@ func ExampleLazyOne0() {
 func ExampleWrap() {
 	// isValue(string) int is a function that compares a string to "value".
 	isValue := curry.BindLastOf2R(strings.Compare, "value")
-	isZero := curry.Two(curry.Eq[int])(0)
+	isZero := curry.Curry2R(curry.Eq[int])(0)
 
 	// Construct a chain of processors that returns true if a given string
 	// is equal to "value" ignoring case when trimmed.

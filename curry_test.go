@@ -66,24 +66,24 @@ func TestCurry(t *testing.T) {
 func TestCurrySlice(t *testing.T) {
 	assert.That(t,
 		assert.Equal("- abc - def -",
-			TwoSlice(fmt.Sprintf)("- %s - %s -")("abc", "def")),
+			Curry2SR(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
 		assert.Equal(13, DropLastOf2(
-			TwoSlice2(testFmt2)("- %s - %s -")("abc", "def"))),
+			Curry2SR2(testFmt2)("- %s - %s -")("abc", "def"))),
 
 		assert.Equal("5: abc def",
-			ThreeSlice(join2slice)("%s %s")(5)("abc", "def")),
+			Curry3SR(join2slice)("%s %s")(5)("abc", "def")),
 
 		assert.Equal(13, DropLastOf2(
-			ThreeSlice2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
+			Curry3SR2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
 	)
 }
 
 func TestCombinations(t *testing.T) {
-	bindFirstTwoOf3 := UnTwo(Three(join3))
+	bindFirstTwoOf3 := Un2R(Curry3R(join3))
 
 	t.Run("bind 2nd of three", func(t *testing.T) {
-		boundSecondOfThree := UnTwo(BindLastOf2R(bindFirstTwoOf3, "b"))
+		boundSecondOfThree := Un2R(BindLastOf2R(bindFirstTwoOf3, "b"))
 		assert.That(t, assert.Equal("abc", boundSecondOfThree("a", "c")))
 	})
 
@@ -100,7 +100,7 @@ func TestDifferentTypes(t *testing.T) {
 		return true
 	}
 	var b bool
-	b = Two(f1)(42)("abc")
+	b = Curry2R(f1)(42)("abc")
 	assert.That(t, assert.True(b))
 
 	testErr := errors.New("err")
@@ -108,14 +108,14 @@ func TestDifferentTypes(t *testing.T) {
 		return true, testErr
 	}
 	var err error
-	b, err = Two2(f1e)(42)("abc")
+	b, err = Curry2R2(f1e)(42)("abc")
 	assert.That(t, assert.True(b))
 	assert.That(t, assert.ErrorIs(err, testErr))
 
-	b = UnTwo(Two(f1))(42, "abc")
+	b = Un2R(Curry2R(f1))(42, "abc")
 	assert.That(t, assert.True(b))
 
-	b, err = UnTwo2(Two2(f1e))(42, "abc")
+	b, err = Un2R2(Curry2R2(f1e))(42, "abc")
 	assert.That(t, assert.True(b))
 	assert.That(t, assert.ErrorIs(err, testErr))
 
