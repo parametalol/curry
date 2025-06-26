@@ -5,7 +5,7 @@ package curry
 
 // DropFirstOf1 drops the first value from a tuple of 1.
 func DropFirstOf1[T0 any](_ T0) {
-	return 
+	return
 }
 
 // region:Drop*Of2
