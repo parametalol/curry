@@ -9,18 +9,18 @@ import (
 func TestSignature(t *testing.T) {
 	assert.That(t,
 		assert.Equal(0,
-			SignatureNone(Bind1R(Pass, 10)).RV1),
+			Signature0R(Bind1R(Pass, 10)).RV0),
 
 		assert.Equal(rune(0),
-			SignatureOne(Pass[rune]).Arg1),
+			Signature1R(Pass[rune]).Arg0),
 		assert.Equal(float32(0.0),
-			SignatureOne(Pass[float32]).RV1),
+			Signature1R(Pass[float32]).RV0),
 
 		assert.Equal("",
-			SignatureTwo(join2).Arg1),
+			Signature2R(join2).Arg0),
 		assert.Equal("",
-			SignatureTwo(join2).Arg2),
+			Signature2R(join2).Arg1),
 		assert.Equal("",
-			SignatureTwo(join2).RV1),
+			Signature2R(join2).RV0),
 	)
 }
