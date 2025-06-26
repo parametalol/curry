@@ -400,4 +400,3 @@ func Curry5SR2[T0, T1, T2, T3, T4, R0, R1 any](fn func(T0, T1, T2, T3, ...T4) (R
 		return Curry4SR2(Head5SR2(fn)(arg0))
 	}
 }
-

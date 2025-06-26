@@ -1,18 +1,18 @@
 {{- define "Types" -}}
-{{ range $i, $a := .Args }}{{if ne $i 0}}, {{end}}T{{$i}}{{end}}
+{{ range $i, $a := .Args }}{{if $i}}, {{end}}T{{$i}}{{end}}
 {{- end}}
 
 {{- define "TypesS" -}}
-{{ range $i, $a := .Args }}{{if ne $i 0}}, {{end}}{{if eq $i $.Last}}...{{end}}T{{$i}}{{end}}
+{{ range $i, $a := .Args }}{{if $i}}, {{end}}{{if eq $i $.Last}}...{{end}}T{{$i}}{{end}}
 {{- end}}
 
 
 {{- define "Args" -}}
-{{ range $i, $a := .Args }}{{if ne $i 0}}, {{end}}{{$a.Name}}{{end}}
+{{ range $i, $a := .Args }}{{if $i}}, {{end}}{{$a.Name}}{{end}}
 {{- end}}
 
 {{- define "ArgsS" -}}
-{{ range $i, $a := .Args }}{{if ne $i 0}}, {{end}}{{$a.Name}}{{if eq $i $.Last}}...{{end}}{{end}}
+{{ range $i, $a := .Args }}{{if $i}}, {{end}}{{$a.Name}}{{if eq $i $.Last}}...{{end}}{{end}}
 {{- end}}
 
 {{- define "Gen" -}}
