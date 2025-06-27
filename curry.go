@@ -61,44 +61,32 @@ func Head2SR2[T0, T1, R0, R1 any](fn func(T0, ...T1) (R0, R1)) func(T0) func(...
 
 // Curry2R curries a function of 2 parameter(s), returning one value.
 func Curry2R[T0, T1, R any](fn func(T0, T1) R) func(T0) func(T1) R {
-	return func(arg0 T0) func(T1) R {
-		return Head2R(fn)(arg0)
-	}
+	return Head2R(fn)
 }
 
 // Curry2 curries a function of 2 parameter(s), returning no values.
 func Curry2[T0, T1 any](fn func(T0, T1)) func(T0) func(T1) {
-	return func(arg0 T0) func(T1) {
-		return Head2(fn)(arg0)
-	}
+	return Head2(fn)
 }
 
 // Curry2R2 curries a function of 2 parameter(s), returning two values.
 func Curry2R2[T0, T1, R0, R1 any](fn func(T0, T1) (R0, R1)) func(T0) func(T1) (R0, R1) {
-	return func(arg0 T0) func(T1) (R0, R1) {
-		return Head2R2(fn)(arg0)
-	}
+	return Head2R2(fn)
 }
 
 // Curry2SR curries a function of 2 parameter(s), returning one value.
 func Curry2SR[T0, T1, R any](fn func(T0, ...T1) R) func(T0) func(...T1) R {
-	return func(arg0 T0) func(...T1) R {
-		return Head2SR(fn)(arg0)
-	}
+	return Head2SR(fn)
 }
 
 // Curry2S curries a function of 2 parameter(s), returning no values.
 func Curry2S[T0, T1 any](fn func(T0, ...T1)) func(T0) func(...T1) {
-	return func(arg0 T0) func(...T1) {
-		return Head2S(fn)(arg0)
-	}
+	return Head2S(fn)
 }
 
 // Curry2SR2 curries a function of 2 parameter(s), returning two values.
 func Curry2SR2[T0, T1, R0, R1 any](fn func(T0, ...T1) (R0, R1)) func(T0) func(...T1) (R0, R1) {
-	return func(arg0 T0) func(...T1) (R0, R1) {
-		return Head2SR2(fn)(arg0)
-	}
+	return Head2SR2(fn)
 }
 
 // region: Head3
