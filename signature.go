@@ -2,6 +2,7 @@
 package curry
 
 // region: 0
+
 type FnSig0R[R any] struct {
 	RV0 R
 }
@@ -18,7 +19,6 @@ func Signature0R[R any](fn func() R) (s FnSig0R[R]) {
 func Signature0R2[R0, R1 any](fn func() (R0, R1)) (s FnSig0R2[R0, R1]) {
 	return
 }
-
 // region: 1
 
 type FnSig1[T0 any] struct {
@@ -27,7 +27,7 @@ type FnSig1[T0 any] struct {
 
 type FnSig1R[T0, R any] struct {
 	FnSig1[T0]
-    FnSig0R[R]
+	FnSig0R[R]
 }
 
 type FnSig1R2[T0, R0, R1 any] struct {
@@ -56,7 +56,7 @@ type FnSig2[T0, T1 any] struct {
 
 type FnSig2R[T0, T1, R any] struct {
 	FnSig2[T0, T1]
-    FnSig0R[R]
+	FnSig0R[R]
 }
 
 type FnSig2R2[T0, T1, R0, R1 any] struct {
@@ -85,7 +85,7 @@ type FnSig3[T0, T1, T2 any] struct {
 
 type FnSig3R[T0, T1, T2, R any] struct {
 	FnSig3[T0, T1, T2]
-    FnSig0R[R]
+	FnSig0R[R]
 }
 
 type FnSig3R2[T0, T1, T2, R0, R1 any] struct {
@@ -114,7 +114,7 @@ type FnSig4[T0, T1, T2, T3 any] struct {
 
 type FnSig4R[T0, T1, T2, T3, R any] struct {
 	FnSig4[T0, T1, T2, T3]
-    FnSig0R[R]
+	FnSig0R[R]
 }
 
 type FnSig4R2[T0, T1, T2, T3, R0, R1 any] struct {
@@ -143,7 +143,7 @@ type FnSig5[T0, T1, T2, T3, T4 any] struct {
 
 type FnSig5R[T0, T1, T2, T3, T4, R any] struct {
 	FnSig5[T0, T1, T2, T3, T4]
-    FnSig0R[R]
+	FnSig0R[R]
 }
 
 type FnSig5R2[T0, T1, T2, T3, T4, R0, R1 any] struct {
