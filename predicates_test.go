@@ -8,7 +8,7 @@ import (
 )
 
 func TestEq(t *testing.T) {
-	isFive := Two(Eq[int])(5)
+	isFive := Curry2R(Eq[int])(5)
 
 	assert.That(t,
 		assert.True(isFive(5)),
@@ -22,7 +22,7 @@ func TestNot(t *testing.T) {
 		assert.False(Not(true)),
 
 		assert.True(Wrap(
-			BindLastOfTwo(cmp.Less, 5),
+			BindLastOf2R(cmp.Less, 5),
 			Not)(7)),
 	)
 }

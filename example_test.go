@@ -9,43 +9,43 @@ import (
 	"github.com/parametalol/curry/seq"
 )
 
-func ExampleTwo() {
+func ExampleCurry2R() {
 	multiply := func(a, b int) int {
 		return a * b
 	}
-	curriedMultiply := curry.Two(multiply)
+	curriedMultiply := curry.Curry2R(multiply)
 	multiplyByTwo := curriedMultiply(2)
 	result := multiplyByTwo(5)
 	fmt.Println(result) // Output: 10
 }
 
-func ExampleUnTwo() {
+func ExampleUn2R() {
 	curriedAdd := func(a int) func(int) int {
 		return func(b int) int {
 			return a + b
 		}
 	}
 
-	uncurriedAdd := curry.UnTwo(curriedAdd)
+	uncurriedAdd := curry.Un2R(curriedAdd)
 	result := uncurriedAdd(3, 4)
 	fmt.Println(result) // Output: 7
 }
 
-func ExampleBindFirstOfTwo() {
+func ExampleBindFirstOf2R() {
 	subtract := func(a, b int) int {
 		return a - b
 	}
 
-	subtractFromTen := curry.BindFirstOfTwo(subtract, 10)
+	subtractFromTen := curry.BindFirstOf2R(subtract, 10)
 	result := subtractFromTen(3)
 	fmt.Println(result) // Output: 7
 }
 
-func ExampleDropLastOfTwo() {
+func ExampleDropLastOf2() {
 	f := func() (int, error) {
 		return 1, nil
 	}
-	result := curry.DropLastOfTwo(f())
+	result := curry.DropLastOf2(f())
 	fmt.Println(result) // Output: 1
 }
 
@@ -67,16 +67,16 @@ func ExampleReturn() {
 	f := func(a string, b string) {
 		fmt.Println(a, b)
 	}
-	lazyF := curry.LazyTwo0(f)
+	lazyF := curry.Lazy2(f)
 	// Bind "first":
-	lazyBound := curry.BindFirstOfTwo0(
+	lazyBound := curry.BindFirstOf2(
 		lazyF, curry.Return("first"))
 
 	lazyBound(curry.Return("second"))
 	// Output: first second
 }
 
-func ExampleLazyOne0() {
+func ExampleLazy1() {
 
 	process := func(expensive string) {
 		fmt.Println("That was", expensive)
@@ -88,7 +88,7 @@ func ExampleLazyOne0() {
 
 	// The expensive process argument is not computed right now, but only when
 	// defer executes.
-	defer curry.LazyOne0(process)(expensive)
+	defer curry.Lazy1(process)(expensive)
 
 	fmt.Println("The expensive process argument hasn't been computed yet.")
 
@@ -100,8 +100,8 @@ func ExampleLazyOne0() {
 
 func ExampleWrap() {
 	// isValue(string) int is a function that compares a string to "value".
-	isValue := curry.BindLastOfTwo(strings.Compare, "value")
-	isZero := curry.Two(curry.Eq[int])(0)
+	isValue := curry.BindLastOf2R(strings.Compare, "value")
+	isZero := curry.Curry2R(curry.Eq[int])(0)
 
 	// Construct a chain of processors that returns true if a given string
 	// is equal to "value" ignoring case when trimmed.
@@ -128,7 +128,7 @@ func ExampleWrap() {
 func ExampleNot() {
 	fruits := []string{"banana", "banana", "orange", "banana"}
 
-	isBanana := curry.BindFirstOfTwo(curry.Eq, "banana")
+	isBanana := curry.BindFirstOf2R(curry.Eq, "banana")
 
 	notBanana := curry.Wrap(isBanana, curry.Not)
 
@@ -143,7 +143,7 @@ func ExampleNot() {
 func ExampleLenString() {
 	isEmpty := curry.Wrap(
 		curry.LenString[string],
-		curry.BindFirstOfTwo(curry.Eq, 0))
+		curry.BindFirstOf2R(curry.Eq, 0))
 
 	fmt.Println(isEmpty(""), isEmpty("abc"))
 	// Output:

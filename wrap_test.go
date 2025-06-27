@@ -15,7 +15,7 @@ func TestWrap(t *testing.T) {
 				strings.ToUpper,
 			), strings.Fields,
 			), slices.Compact[[]string],
-			), BindLastOfTwo(strings.Join, ","),
+			), BindLastOf2R(strings.Join, ","),
 			)(" a a a b c c c c de")),
 
 		assert.Equal(true,

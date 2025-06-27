@@ -9,37 +9,37 @@ import (
 )
 
 func TestUnCurry(t *testing.T) {
-	curriedJoin := Four(join4)
+	curriedJoin := Curry4R(join4)
 
 	assert.That(t,
-		assert.Equal("abcd", UnFour(curriedJoin)("a", "b", "c", "d")),
-		assert.Equal("abcd", UnThree(curriedJoin)("a", "b", "c")("d")),
-		assert.Equal("abcd", UnTwo(curriedJoin)("a", "b")("c")("d")),
+		assert.Equal("abcd", Un4R(curriedJoin)("a", "b", "c", "d")),
+		assert.Equal("abcd", Un3R(curriedJoin)("a", "b", "c")("d")),
+		assert.Equal("abcd", Un2R(curriedJoin)("a", "b")("c")("d")),
 	)
 
-	curriedJoinE := Four2(join4e)
+	curriedJoinE := Curry4R2(join4e)
 	assert.That(t,
-		assert.Equal("abcd", DropLastOfTwo(UnFour2(curriedJoinE)("a", "b", "c", "d"))),
-		assert.Equal("abcd", DropLastOfTwo(UnThree(curriedJoinE)("a", "b", "c")("d"))),
-		assert.Equal("abcd", DropLastOfTwo(UnTwo(curriedJoinE)("a", "b")("c")("d"))),
+		assert.Equal("abcd", DropLastOf2(Un4R2(curriedJoinE)("a", "b", "c", "d"))),
+		assert.Equal("abcd", DropLastOf2(Un3R(curriedJoinE)("a", "b", "c")("d"))),
+		assert.Equal("abcd", DropLastOf2(Un2R(curriedJoinE)("a", "b")("c")("d"))),
 	)
 }
 
 func TestUnCurrySlice(t *testing.T) {
 	assert.That(t,
 		assert.Equal("a-b-c",
-			UnTwoSlice(TwoSlice(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")),
+			Un2SR(Curry2SR(fmt.Sprintf))("%s-%s-%s", "a", "b", "c")),
 
-		assert.Equal(13, DropLastOfTwo(
-			UnTwoSlice2(TwoSlice2(testFmt2))("- %s - %s -", "abc", "def"))),
-
-		assert.Equal("5: a b",
-			UnThreeSlice(ThreeSlice(join2slice))("%s %s", 5, "a", "b")),
-
-		assert.Equal(5, DropLastOfTwo(
-			UnThreeSlice2(ThreeSlice2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))),
+		assert.Equal(13, DropLastOf2(
+			Un2SR2(Curry2SR2(testFmt2))("- %s - %s -", "abc", "def"))),
 
 		assert.Equal("5: a b",
-			UnTwo(ThreeSlice(join2slice))("%s %s", 5)("a", "b")),
+			Un3SR(Curry3SR(join2slice))("%s %s", 5, "a", "b")),
+
+		assert.Equal(5, DropLastOf2(
+			Un3SR2(Curry3SR2(fmt.Fprintf))(io.Discard, "%s-%s-%s", "a", "b", "c"))),
+
+		assert.Equal("5: a b",
+			Un2R(Curry3SR(join2slice))("%s %s", 5)("a", "b")),
 	)
 }
