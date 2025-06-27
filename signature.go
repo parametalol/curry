@@ -19,6 +19,7 @@ func Signature0R[R any](fn func() R) (s FnSig0R[R]) {
 func Signature0R2[R0, R1 any](fn func() (R0, R1)) (s FnSig0R2[R0, R1]) {
 	return
 }
+
 // region: 1
 
 type FnSig1[T0 any] struct {
