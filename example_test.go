@@ -56,7 +56,7 @@ func ExampleAdaptOne() {
 		return i&1 == 0
 	}
 	fmt.Println(slices.DeleteFunc([]int{1, 2, 3, 4, 5},
-		curry.AdaptOne[int, bool](odd)))
+		curry.Adapt1R[int, bool](odd)))
 	// Output:
 	// [1 3 5]
 }
