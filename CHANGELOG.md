@@ -4,11 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Changed
-
-- Generated functions up to 5 parameters.
+## [0.0.2] — More features
 
 ### Added
 
@@ -22,7 +18,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `Return*` to return the passed argument.
 - `Thunk*` makes a thunk function that returns the passed argument.
 
-## [0.0.1] - Initial release
+### Changed
+
+- Generated functions up to 5 parameters.
+- Renamed `Curry*` functions to `F*`.
+- Renamed function suffixes from `Two`, `Three`, etc. to `2`, `3`, etc.
+
+## [0.0.1] — Initial release
 
 ### Added
 
