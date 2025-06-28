@@ -51,46 +51,34 @@ func Bind1SR2[T0, R0, R1 any](fn func(...T0) (R0, R1), arg0 ...T0) func() (R0, R
 
 // BindFirstOf2R binds the first argument of a function of 2, returning one value.
 func BindFirstOf2R[T0, T1, R any](fn func(T0, T1) R, arg0 T0) func(T1) R {
-	return func(arg1 T1) R {
-		return fn(arg0, arg1)
-	}
+	return Head2R(fn)(arg0)
 }
 
 // BindFirstOf2 binds the first argument of a function of 2, returning no values.
 func BindFirstOf2[T0, T1 any](fn func(T0, T1), arg0 T0) func(T1) {
-	return func(arg1 T1) {
-		fn(arg0, arg1)
-	}
+	return Head2(fn)(arg0)
 }
 
 // BindFirstOf2R2 binds the first argument of a function of 2, returning two values.
 func BindFirstOf2R2[T0, T1, R0, R1 any](fn func(T0, T1) (R0, R1), arg0 T0) func(T1) (R0, R1) {
-	return func(arg1 T1) (R0, R1) {
-		return fn(arg0, arg1)
-	}
+	return Head2R2(fn)(arg0)
 }
 
 // region: BindFirstOf2S
 
 // BindFirstOf2SR binds the first argument of a function of 2, returning one value.
 func BindFirstOf2SR[T0, T1, R any](fn func(T0, ...T1) R, arg0 T0) func(...T1) R {
-	return func(arg1 ...T1) R {
-		return fn(arg0, arg1...)
-	}
+	return Head2SR(fn)(arg0)
 }
 
 // BindFirstOf2S binds the first argument of a function of 2, returning no values.
 func BindFirstOf2S[T0, T1 any](fn func(T0, ...T1), arg0 T0) func(...T1) {
-	return func(arg1 ...T1) {
-		fn(arg0, arg1...)
-	}
+	return Head2S(fn)(arg0)
 }
 
 // BindFirstOf2SR2 binds the first argument of a function of 2, returning one value.
 func BindFirstOf2SR2[T0, T1, R0, R1 any](fn func(T0, ...T1) (R0, R1), arg0 T0) func(...T1) (R0, R1) {
-	return func(arg1 ...T1) (R0, R1) {
-		return fn(arg0, arg1...)
-	}
+	return Head2SR2(fn)(arg0)
 }
 
 // region: BindLastOf2
@@ -143,46 +131,34 @@ func BindLastOf2SR2[T0, T1, R0, R1 any](fn func(T0, ...T1) (R0, R1), arg1 ...T1)
 
 // BindFirstOf3R binds the first argument of a function of 3, returning one value.
 func BindFirstOf3R[T0, T1, T2, R any](fn func(T0, T1, T2) R, arg0 T0) func(T1, T2) R {
-	return func(arg1 T1, arg2 T2) R {
-		return fn(arg0, arg1, arg2)
-	}
+	return Head3R(fn)(arg0)
 }
 
 // BindFirstOf3 binds the first argument of a function of 3, returning no values.
 func BindFirstOf3[T0, T1, T2 any](fn func(T0, T1, T2), arg0 T0) func(T1, T2) {
-	return func(arg1 T1, arg2 T2) {
-		fn(arg0, arg1, arg2)
-	}
+	return Head3(fn)(arg0)
 }
 
 // BindFirstOf3R2 binds the first argument of a function of 3, returning two values.
 func BindFirstOf3R2[T0, T1, T2, R0, R1 any](fn func(T0, T1, T2) (R0, R1), arg0 T0) func(T1, T2) (R0, R1) {
-	return func(arg1 T1, arg2 T2) (R0, R1) {
-		return fn(arg0, arg1, arg2)
-	}
+	return Head3R2(fn)(arg0)
 }
 
 // region: BindFirstOf3S
 
 // BindFirstOf3SR binds the first argument of a function of 3, returning one value.
 func BindFirstOf3SR[T0, T1, T2, R any](fn func(T0, T1, ...T2) R, arg0 T0) func(T1, ...T2) R {
-	return func(arg1 T1, arg2 ...T2) R {
-		return fn(arg0, arg1, arg2...)
-	}
+	return Head3SR(fn)(arg0)
 }
 
 // BindFirstOf3S binds the first argument of a function of 3, returning no values.
 func BindFirstOf3S[T0, T1, T2 any](fn func(T0, T1, ...T2), arg0 T0) func(T1, ...T2) {
-	return func(arg1 T1, arg2 ...T2) {
-		fn(arg0, arg1, arg2...)
-	}
+	return Head3S(fn)(arg0)
 }
 
 // BindFirstOf3SR2 binds the first argument of a function of 3, returning one value.
 func BindFirstOf3SR2[T0, T1, T2, R0, R1 any](fn func(T0, T1, ...T2) (R0, R1), arg0 T0) func(T1, ...T2) (R0, R1) {
-	return func(arg1 T1, arg2 ...T2) (R0, R1) {
-		return fn(arg0, arg1, arg2...)
-	}
+	return Head3SR2(fn)(arg0)
 }
 
 // region: BindLastOf3
@@ -235,46 +211,34 @@ func BindLastOf3SR2[T0, T1, T2, R0, R1 any](fn func(T0, T1, ...T2) (R0, R1), arg
 
 // BindFirstOf4R binds the first argument of a function of 4, returning one value.
 func BindFirstOf4R[T0, T1, T2, T3, R any](fn func(T0, T1, T2, T3) R, arg0 T0) func(T1, T2, T3) R {
-	return func(arg1 T1, arg2 T2, arg3 T3) R {
-		return fn(arg0, arg1, arg2, arg3)
-	}
+	return Head4R(fn)(arg0)
 }
 
 // BindFirstOf4 binds the first argument of a function of 4, returning no values.
 func BindFirstOf4[T0, T1, T2, T3 any](fn func(T0, T1, T2, T3), arg0 T0) func(T1, T2, T3) {
-	return func(arg1 T1, arg2 T2, arg3 T3) {
-		fn(arg0, arg1, arg2, arg3)
-	}
+	return Head4(fn)(arg0)
 }
 
 // BindFirstOf4R2 binds the first argument of a function of 4, returning two values.
 func BindFirstOf4R2[T0, T1, T2, T3, R0, R1 any](fn func(T0, T1, T2, T3) (R0, R1), arg0 T0) func(T1, T2, T3) (R0, R1) {
-	return func(arg1 T1, arg2 T2, arg3 T3) (R0, R1) {
-		return fn(arg0, arg1, arg2, arg3)
-	}
+	return Head4R2(fn)(arg0)
 }
 
 // region: BindFirstOf4S
 
 // BindFirstOf4SR binds the first argument of a function of 4, returning one value.
 func BindFirstOf4SR[T0, T1, T2, T3, R any](fn func(T0, T1, T2, ...T3) R, arg0 T0) func(T1, T2, ...T3) R {
-	return func(arg1 T1, arg2 T2, arg3 ...T3) R {
-		return fn(arg0, arg1, arg2, arg3...)
-	}
+	return Head4SR(fn)(arg0)
 }
 
 // BindFirstOf4S binds the first argument of a function of 4, returning no values.
 func BindFirstOf4S[T0, T1, T2, T3 any](fn func(T0, T1, T2, ...T3), arg0 T0) func(T1, T2, ...T3) {
-	return func(arg1 T1, arg2 T2, arg3 ...T3) {
-		fn(arg0, arg1, arg2, arg3...)
-	}
+	return Head4S(fn)(arg0)
 }
 
 // BindFirstOf4SR2 binds the first argument of a function of 4, returning one value.
 func BindFirstOf4SR2[T0, T1, T2, T3, R0, R1 any](fn func(T0, T1, T2, ...T3) (R0, R1), arg0 T0) func(T1, T2, ...T3) (R0, R1) {
-	return func(arg1 T1, arg2 T2, arg3 ...T3) (R0, R1) {
-		return fn(arg0, arg1, arg2, arg3...)
-	}
+	return Head4SR2(fn)(arg0)
 }
 
 // region: BindLastOf4
@@ -327,46 +291,34 @@ func BindLastOf4SR2[T0, T1, T2, T3, R0, R1 any](fn func(T0, T1, T2, ...T3) (R0, 
 
 // BindFirstOf5R binds the first argument of a function of 5, returning one value.
 func BindFirstOf5R[T0, T1, T2, T3, T4, R any](fn func(T0, T1, T2, T3, T4) R, arg0 T0) func(T1, T2, T3, T4) R {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 T4) R {
-		return fn(arg0, arg1, arg2, arg3, arg4)
-	}
+	return Head5R(fn)(arg0)
 }
 
 // BindFirstOf5 binds the first argument of a function of 5, returning no values.
 func BindFirstOf5[T0, T1, T2, T3, T4 any](fn func(T0, T1, T2, T3, T4), arg0 T0) func(T1, T2, T3, T4) {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 T4) {
-		fn(arg0, arg1, arg2, arg3, arg4)
-	}
+	return Head5(fn)(arg0)
 }
 
 // BindFirstOf5R2 binds the first argument of a function of 5, returning two values.
 func BindFirstOf5R2[T0, T1, T2, T3, T4, R0, R1 any](fn func(T0, T1, T2, T3, T4) (R0, R1), arg0 T0) func(T1, T2, T3, T4) (R0, R1) {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 T4) (R0, R1) {
-		return fn(arg0, arg1, arg2, arg3, arg4)
-	}
+	return Head5R2(fn)(arg0)
 }
 
 // region: BindFirstOf5S
 
 // BindFirstOf5SR binds the first argument of a function of 5, returning one value.
 func BindFirstOf5SR[T0, T1, T2, T3, T4, R any](fn func(T0, T1, T2, T3, ...T4) R, arg0 T0) func(T1, T2, T3, ...T4) R {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 ...T4) R {
-		return fn(arg0, arg1, arg2, arg3, arg4...)
-	}
+	return Head5SR(fn)(arg0)
 }
 
 // BindFirstOf5S binds the first argument of a function of 5, returning no values.
 func BindFirstOf5S[T0, T1, T2, T3, T4 any](fn func(T0, T1, T2, T3, ...T4), arg0 T0) func(T1, T2, T3, ...T4) {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 ...T4) {
-		fn(arg0, arg1, arg2, arg3, arg4...)
-	}
+	return Head5S(fn)(arg0)
 }
 
 // BindFirstOf5SR2 binds the first argument of a function of 5, returning one value.
 func BindFirstOf5SR2[T0, T1, T2, T3, T4, R0, R1 any](fn func(T0, T1, T2, T3, ...T4) (R0, R1), arg0 T0) func(T1, T2, T3, ...T4) (R0, R1) {
-	return func(arg1 T1, arg2 T2, arg3 T3, arg4 ...T4) (R0, R1) {
-		return fn(arg0, arg1, arg2, arg3, arg4...)
-	}
+	return Head5SR2(fn)(arg0)
 }
 
 // region: BindLastOf5

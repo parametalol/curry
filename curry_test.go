@@ -51,36 +51,36 @@ func join2slice(format string, b int64, c ...any) string {
 	return strconv.FormatInt(b, 10) + ": " + fmt.Sprintf(format, c...)
 }
 
-func TestCurry(t *testing.T) {
+func TestF(t *testing.T) {
 	assert.That(t,
-		assert.Equal("ab", Curry2R(join2)("a")("b")),
-		assert.Equal("abc", Curry3R(join3)("a")("b")("c")),
-		assert.Equal("abcd", Curry4R(join4)("a")("b")("c")("d")),
+		assert.Equal("ab", F2R(join2)("a")("b")),
+		assert.Equal("abc", F3R(join3)("a")("b")("c")),
+		assert.Equal("abcd", F4R(join4)("a")("b")("c")("d")),
 
-		assert.Equal("ab", DropLastOf2(Curry2R2(join2e)("a")("b"))),
-		assert.Equal("abc", DropLastOf2(Curry3R2(join3e)("a")("b")("c"))),
-		assert.Equal("abcd", DropLastOf2(Curry4R2(join4e)("a")("b")("c")("d"))),
+		assert.Equal("ab", DropLastOf2(F2R2(join2e)("a")("b"))),
+		assert.Equal("abc", DropLastOf2(F3R2(join3e)("a")("b")("c"))),
+		assert.Equal("abcd", DropLastOf2(F4R2(join4e)("a")("b")("c")("d"))),
 	)
 }
 
-func TestCurrySlice(t *testing.T) {
+func TestFSlice(t *testing.T) {
 	assert.That(t,
 		assert.Equal("- abc - def -",
-			Curry2SR(fmt.Sprintf)("- %s - %s -")("abc", "def")),
+			F2SR(fmt.Sprintf)("- %s - %s -")("abc", "def")),
 
 		assert.Equal(13, DropLastOf2(
-			Curry2SR2(testFmt2)("- %s - %s -")("abc", "def"))),
+			F2SR2(testFmt2)("- %s - %s -")("abc", "def"))),
 
 		assert.Equal("5: abc def",
-			Curry3SR(join2slice)("%s %s")(5)("abc", "def")),
+			F3SR(join2slice)("%s %s")(5)("abc", "def")),
 
 		assert.Equal(13, DropLastOf2(
-			Curry3SR2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
+			F3SR2(fmt.Fprintf)(io.Discard)("- %s - %s -")("abc", "def"))),
 	)
 }
 
 func TestCombinations(t *testing.T) {
-	bindFirstTwoOf3 := Un2R(Curry3R(join3))
+	bindFirstTwoOf3 := Un2R(F3R(join3))
 
 	t.Run("bind 2nd of three", func(t *testing.T) {
 		boundSecondOfThree := Un2R(BindLastOf2R(bindFirstTwoOf3, "b"))
@@ -100,7 +100,7 @@ func TestDifferentTypes(t *testing.T) {
 		return true
 	}
 	var b bool
-	b = Curry2R(f1)(42)("abc")
+	b = F2R(f1)(42)("abc")
 	assert.That(t, assert.True(b))
 
 	testErr := errors.New("err")
@@ -108,14 +108,14 @@ func TestDifferentTypes(t *testing.T) {
 		return true, testErr
 	}
 	var err error
-	b, err = Curry2R2(f1e)(42)("abc")
+	b, err = F2R2(f1e)(42)("abc")
 	assert.That(t, assert.True(b))
 	assert.That(t, assert.ErrorIs(err, testErr))
 
-	b = Un2R(Curry2R(f1))(42, "abc")
+	b = Un2R(F2R(f1))(42, "abc")
 	assert.That(t, assert.True(b))
 
-	b, err = Un2R2(Curry2R2(f1e))(42, "abc")
+	b, err = Un2R2(F2R2(f1e))(42, "abc")
 	assert.That(t, assert.True(b))
 	assert.That(t, assert.ErrorIs(err, testErr))
 

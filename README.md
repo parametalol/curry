@@ -32,11 +32,30 @@ This approach allows for more flexible and reusable code, enabling partial appli
 
 ## Features
 
+### Function signature manipulation
+
 - **Currying Functions**: Transform standard Go functions into their curried counterparts.
 - **Uncurrying Functions**: Revert curried functions back to their original form.
 - **Partial Application**: Create new functions by pre-filling some arguments.
 - **Return Values Dropping**: Ignore first or last function return values.
 - **Lazy Arguments Evaluation**: Convert function parameters to thunk functions.
+
+### Sequence processing
+
+- **Tail**: Pop an element and get the tail of a sequence.
+- **Take N**: Cut a sequence after pulling first N elements.
+- **Filter**: Filter sequence values.
+- **Map**: Convert sequence values.
+- **Until**: Pull values until condition is true.
+- **Last**: Consume the sequence and return the last value.
+- **Accumulate**: Compute an accumulated value.
+- **Zip**: Join two sequences to a sequence of pairs.
+
+### Sequence generation
+
+- **Range**: Generate integers in a range, with a given step.
+- **Generate**: Generate a sequence of a function return values.
+- **Channels**: Convert a sequence to a channel, or the other way around.
 
 ## Installation
 

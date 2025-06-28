@@ -9,11 +9,11 @@ import (
 	"github.com/parametalol/curry/seq"
 )
 
-func ExampleCurry2R() {
+func ExampleF2R() {
 	multiply := func(a, b int) int {
 		return a * b
 	}
-	curriedMultiply := curry.Curry2R(multiply)
+	curriedMultiply := curry.F2R(multiply)
 	multiplyByTwo := curriedMultiply(2)
 	result := multiplyByTwo(5)
 	fmt.Println(result) // Output: 10
@@ -70,9 +70,9 @@ func ExampleReturn() {
 	lazyF := curry.Lazy2(f)
 	// Bind "first":
 	lazyBound := curry.BindFirstOf2(
-		lazyF, curry.Return("first"))
+		lazyF, curry.Thunk("first"))
 
-	lazyBound(curry.Return("second"))
+	lazyBound(curry.Thunk("second"))
 	// Output: first second
 }
 
@@ -101,12 +101,12 @@ func ExampleLazy1() {
 func ExampleWrap() {
 	// isValue(string) int is a function that compares a string to "value".
 	isValue := curry.BindLastOf2R(strings.Compare, "value")
-	isZero := curry.Curry2R(curry.Eq[int])(0)
+	isZero := curry.F2R(curry.Eq[int])(0)
 
 	// Construct a chain of processors that returns true if a given string
 	// is equal to "value" ignoring case when trimmed.
-	// Pass in the end is just for the next lines alignment.
-	chain := curry.Wrap(curry.Wrap(curry.Wrap(curry.Pass(
+	// Return in the end is just for the next lines alignment.
+	chain := curry.Wrap(curry.Wrap(curry.Wrap(curry.Return(
 		strings.TrimSpace, // string -> string
 	), strings.ToLower, // string -> string
 	), isValue, // string -> int
@@ -138,14 +138,4 @@ func ExampleNot() {
 	))
 	// Output:
 	// [orange]
-}
-
-func ExampleLenString() {
-	isEmpty := curry.Wrap(
-		curry.LenString[string],
-		curry.BindFirstOf2R(curry.Eq, 0))
-
-	fmt.Println(isEmpty(""), isEmpty("abc"))
-	// Output:
-	// true false
 }

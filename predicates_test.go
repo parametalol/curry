@@ -8,7 +8,7 @@ import (
 )
 
 func TestEq(t *testing.T) {
-	isFive := Curry2R(Eq[int])(5)
+	isFive := F2R(Eq[int])(5)
 
 	assert.That(t,
 		assert.True(isFive(5)),
@@ -24,16 +24,5 @@ func TestNot(t *testing.T) {
 		assert.True(Wrap(
 			BindLastOf2R(cmp.Less, 5),
 			Not)(7)),
-	)
-}
-
-func TestLen(t *testing.T) {
-	type kindOfString string
-
-	assert.That(t,
-		assert.Equal(3, LenString("abc")),
-		assert.Equal(3, LenString(kindOfString("abc"))),
-		assert.Equal(3, LenSlice([]int{2, 4, 6})),
-		assert.Equal(3, LenMap(map[string]string{"a": "b", "c": "d", "e": "f"})),
 	)
 }

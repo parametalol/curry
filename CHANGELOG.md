@@ -6,10 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Generated functions up to 5 parameters.
+
 ### Added
 
-- Adapt* functions.
-- Lazy* and Thunk* functions.
+- `Adapt*` to adapt a function to the given signature.
+- `Lazy*` for lazy evaluation of function arguments.
+- `Head*` to make partial currying.
+- `Wrap` to build a chain of data processors.
+- `seq` package, that provides some sequence processing functions.
+- `Signature*` and `FnSig*` to compute function parameters and return types without using reflection.
+- `Eq` and `Not` predicates.
+- `Return*` to return the passed argument.
+- `Thunk*` makes a thunk function that returns the passed argument.
 
 ## [0.0.1] - Initial release
 
