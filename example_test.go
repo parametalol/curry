@@ -70,9 +70,9 @@ func ExampleReturn() {
 	lazyF := curry.Lazy2(f)
 	// Bind "first":
 	lazyBound := curry.BindFirstOf2(
-		lazyF, curry.Return("first"))
+		lazyF, curry.Thunk("first"))
 
-	lazyBound(curry.Return("second"))
+	lazyBound(curry.Thunk("second"))
 	// Output: first second
 }
 
@@ -106,7 +106,7 @@ func ExampleWrap() {
 	// Construct a chain of processors that returns true if a given string
 	// is equal to "value" ignoring case when trimmed.
 	// Pass in the end is just for the next lines alignment.
-	chain := curry.Wrap(curry.Wrap(curry.Wrap(curry.Pass(
+	chain := curry.Wrap(curry.Wrap(curry.Wrap(curry.Return(
 		strings.TrimSpace, // string -> string
 	), strings.ToLower, // string -> string
 	), isValue, // string -> int

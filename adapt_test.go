@@ -15,7 +15,7 @@ func TestAdaptNone(t *testing.T) {
 		assert.NoError(AdaptNone[error](func() {})()),
 		assert.Equal("string", AdaptNone[string](func() string { return "string" })()),
 		assert.Equal("string", AdaptNone[string](func() any { return "string" })()),
-		assert.Equal("string", AdaptNoneF(Return(""), func() any { return "string" })()),
+		assert.Equal("string", AdaptNoneF(Thunk(""), func() any { return "string" })()),
 	)
 }
 
