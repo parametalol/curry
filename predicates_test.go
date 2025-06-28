@@ -26,14 +26,3 @@ func TestNot(t *testing.T) {
 			Not)(7)),
 	)
 }
-
-func TestLen(t *testing.T) {
-	type kindOfString string
-
-	assert.That(t,
-		assert.Equal(3, LenString("abc")),
-		assert.Equal(3, LenString(kindOfString("abc"))),
-		assert.Equal(3, LenSlice([]int{2, 4, 6})),
-		assert.Equal(3, LenMap(map[string]string{"a": "b", "c": "d", "e": "f"})),
-	)
-}

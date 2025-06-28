@@ -25,14 +25,5 @@ func TestWrap(t *testing.T) {
 			), slices.Compact[[]string],
 			), slices.IsSorted,
 			)("a a b c d d e")),
-
-		assert.Equal(8,
-			Wrap(
-				Number[int],
-				(*NumberT[int]).Inc,
-				(*NumberT[int]).Inc,
-				(*NumberT[int]).Inc,
-			)(5),
-		),
 	)
 }

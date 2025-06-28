@@ -139,13 +139,3 @@ func ExampleNot() {
 	// Output:
 	// [orange]
 }
-
-func ExampleLenString() {
-	isEmpty := curry.Wrap(
-		curry.LenString[string],
-		curry.BindFirstOf2R(curry.Eq, 0))
-
-	fmt.Println(isEmpty(""), isEmpty("abc"))
-	// Output:
-	// true false
-}

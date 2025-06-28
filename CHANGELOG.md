@@ -15,8 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `Wrap` to build a chain of data processors.
 - `seq` package, that provides some sequence processing functions.
 - `Signature*` and `FnSig*` to compute function parameters and return types without using reflection.
-- `Eq`, `Not` and `Len*` predicates.
-- `Number` wrapper with `Inc`, `Dec` and `Add` methods.
+- `Eq` and `Not` predicates.
 
 ## [0.0.1] - Initial release
 
