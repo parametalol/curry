@@ -2,7 +2,7 @@
 {{- define "TailS"}}{{if $.Last}} func({{range $i, $a := .Args}}{{if $i}}{{if ne $i 1}}, {{end}}{{if eq $i $.Last}}...{{end}}T{{$i}}{{end}}{{end}}){{end}}{{end}}
 
 {{- if ne $.N 1}}
-// region: Head{{.N}}
+// region Head{{.N}}
 
 // Head{{.N}}R returns a partially curried function of {{.N}} parameter(s), returning one value.
 func Head{{.N}}R[{{template "GenR" .}}](fn func({{template "Types" .}}) R) func(T0) {{- template "Tail" .}} R {

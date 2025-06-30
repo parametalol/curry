@@ -1,5 +1,5 @@
 {{- if ne $.N 1}}
-// region: {{.N}}
+// region {{.N}}
 
 // Un{{.N}}R transforms a curried function with {{.N}} parameter(s) back into its original form.
 func Un{{.N}}R[{{template "GenR" .}}](fn{{range $i, $a := .Args}} func(T{{$i}}){{end}} R) func({{template "Types" .}}) R {

@@ -62,7 +62,7 @@ type FuncAny2AnyR[T0, T1, R any] interface {
 		FuncAny2[T0, T1]
 }
 
-// AdaptR upgrades the given function signature to `func() R`.
+// AdaptR upgrades the fn function signature to `func() R`.
 //
 //	 R  0
 //	 -  1
@@ -79,7 +79,7 @@ func AdaptR[R any, Fn FuncAnyR[R]](fn Fn) func() R {
 	panic("unsupported function signature")
 }
 
-// Adapt1R upgrades the given function signature to `func(T0) R`.
+// Adapt1R upgrades the fn function signature to `func(T0) R`.
 //
 //	 T0,  R    0
 //	 T0,  -    1
@@ -114,7 +114,7 @@ func Adapt1R[T0, R any, Fn FuncAny1AnyR[T0, R]](fn Fn) func(T0) R {
 	panic("unsupported function signature")
 }
 
-// Adapt1 upgrades the given function signature to `func(T0)`.
+// Adapt1 upgrades the fn function signature to `func(T0)`.
 //
 //	 T0  0
 //	 -   1
@@ -131,7 +131,7 @@ func Adapt1[T0 any, Fn FuncAny1[T0]](fn Fn) func(T0) {
 	panic("unsupported function signature")
 }
 
-// Adapt2R adapts the given function fn to the `func(T0, T1) R` signature.
+// Adapt2R upgrades the fn function signature to `func(T0, T1) R`.
 //
 //	 T0,  T1,  R   0
 //	 T0,  T1,  -   1
@@ -214,7 +214,7 @@ func Adapt2R[T0, T1, R any, Fn FuncAny2AnyR[T0, T1, R]](fn Fn) func(T0, T1) R {
 	panic("unsupported function signature")
 }
 
-// Adapt2 adapts the given function fn to the `func(T0, T1)` signature.
+// Adapt2 upgrades the fn function signature to `func(T0, T1)`.
 //
 //	 T0,  T1  0
 //	 T0,  -   1
