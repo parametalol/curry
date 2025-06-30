@@ -2,6 +2,7 @@ package assert
 
 import (
 	"errors"
+	"fmt"
 	"slices"
 	"testing"
 )
@@ -36,15 +37,22 @@ func NoError(err error) Assertion {
 	return func() (bool, any, any) { return err == nil, nil, err }
 }
 
+func Not(ass Assertion) Assertion {
+	return func() (bool, any, any) {
+		b, e, a := ass()
+		return !b, fmt.Sprintf("not %v", e), a
+	}
+}
+
 func That(t *testing.T, assertions ...Assertion) bool {
 	t.Helper()
 	ok := true
 	for i, assertion := range assertions {
 		if passed, e, a := assertion(); !passed {
 			if len(assertions) > 0 {
-				t.Errorf("assertion %d: expected = %v, got = %v", i, e, a)
+				t.Errorf("assertion %d: expected %v, got %v", i, e, a)
 			} else {
-				t.Errorf("expected = %v, got = %v", e, a)
+				t.Errorf("expected %v, got %v", e, a)
 			}
 			t.Fail()
 			ok = false
