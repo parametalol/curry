@@ -1,5 +1,5 @@
 
-// region: Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}
+// region Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}
 
 // Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}R binds the first argument of a function of {{.N}}, returning one value.
 func Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}R[{{template "GenR" .}}](fn func({{ range $i, $x := .Args }}{{if $i}}, {{end}}T{{$i}}{{end}}) R, arg0 T0) func({{ range $i, $x := .Args }}{{if gt $i 0}}{{if ne $i 1}}, {{end}}T{{$i}}{{end}}{{end}}) R {
@@ -34,7 +34,7 @@ func Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}R2[{{template "GenR2" .}}](fn func({
 	{{- end}}
 }
 
-// region: Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}S
+// region Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}S
 
 // Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}SR binds the first argument of a function of {{.N}}, returning one value.
 func Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}SR[{{template "GenR" .}}](fn func(
@@ -95,7 +95,7 @@ func Bind{{if ne $.N 1}}FirstOf{{end}}{{.N}}SR2[{{template "GenR2" .}}](fn func(
 
 {{- if ne $.N 1}}
 
-// region: BindLastOf{{.N}}
+// region BindLastOf{{.N}}
 
 // BindLastOf{{.N}}R binds the last argument of a function of {{.N}}, returning one value.
 func BindLastOf{{.N}}R[{{template "GenR" .}}](fn func({{range $i, $x := .Args}}
@@ -124,7 +124,7 @@ func BindLastOf{{.N}}R2[{{template "GenR2" .}}](fn func({{range $i, $x := .Args}
 	}
 }
 
-// region: BindLastOf{{.N}}S
+// region BindLastOf{{.N}}S
 
 // BindLastOf{{.N}}SR binds the last ellipsis argument of a function of {{.N}}, returning one value.
 func BindLastOf{{.N}}SR[{{template "GenR" .}}](fn func({{range $i, $x := .Args -}}{{- if ne $i $.Last -}}

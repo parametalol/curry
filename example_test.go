@@ -49,14 +49,34 @@ func ExampleDropLastOf2() {
 	fmt.Println(result) // Output: 1
 }
 
-func ExampleAdaptOne() {
+func ExampleAdapt1R() {
 	i := 0
 	odd := func() bool {
 		i++
 		return i&1 == 0
 	}
-	fmt.Println(slices.DeleteFunc([]int{1, 2, 3, 4, 5},
-		curry.AdaptOne[int, bool](odd)))
+
+	// slices.DeleteFunc expects func(int) bool. Let's adapt odd: the int
+	// argument will be ignored.
+	fmt.Println(
+		slices.DeleteFunc([]int{1, 2, 3, 4, 5},
+			curry.Adapt1R[int, bool](odd)))
+	// Output:
+	// [1 3 5]
+}
+
+func ExampleSignature2R() {
+	i := 0
+	odd := func() bool {
+		i++
+		return i&1 == 0
+	}
+
+	// slices.DeleteFunc expects func(int) bool. Let's adapt odd: the int
+	// argument will be ignored.
+	fmt.Println(
+		slices.DeleteFunc([]int{1, 2, 3, 4, 5},
+			curry.Adapt1RF(curry.Signature2R(slices.DeleteFunc[[]int, int]).Arg1, odd)))
 	// Output:
 	// [1 3 5]
 }

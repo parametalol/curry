@@ -1,5 +1,5 @@
 
-// region: {{.N}}
+// region {{.N}}
 
 // Lazy{{.N}}R converts function parameters to thunk functions.
 func Lazy{{.N}}R[{{template "GenR" .}}](fn func({{template "Types" .}}) R) func({{range $i, $a := .Args}}{{if $i}}, {{end}}func() T{{$i}}{{end}}) R {

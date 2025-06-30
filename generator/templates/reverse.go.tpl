@@ -1,6 +1,6 @@
 
 {{- if ne .N 1}}
-// region: Reverse{{.N}}
+// region Reverse{{.N}}
 
 // Reverse{{.N}}R the order of the parameters of a function returning one value.
 func Reverse{{.N}}R[{{template "GenR" .}}](fn func({{ range $i, $a := .Args }}{{if $i}}, {{end}}T{{$a.I}}{{end}}) R) func({{ range $i, $a := .RArgs }}{{if $i}}, {{end}}T{{$a.I}}{{end}}) R {

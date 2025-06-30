@@ -1,5 +1,5 @@
 {{- if ne $.N 1}}
-// region: F{{.N}}
+// region F{{.N}}
 
 // F{{.N}}R curries a function of {{.N}} parameter(s), returning one value.
 func F{{.N}}R[{{template "GenR" .}}](fn func({{template "Types" .}}) R){{range $i, $a := .Args}} func(T{{$i}}){{end}} R {

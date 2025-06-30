@@ -1,5 +1,5 @@
 
-// region:Drop*Of{{.N}}
+// regionDrop*Of{{.N}}
 
 // DropFirstOf{{.N}} drops the first value from a tuple of {{.N}}.
 func DropFirstOf{{.N}}[{{template "Gen" .}}]({{range $i, $a := .Args}}{{if eq $i 0}}_ T0{{else}}, {{$a.Name}} T{{$i}}{{end}}{{end}}){{if ne $.N 1}} {{end}}{{if gt $.N 2}}({{end}}{{- range $i, $a := .Args}}{{if gt $i 0}}{{if ne $i 1}}, {{end}}T{{$i}}{{end}}{{end}}{{if gt $.N 2}}){{end}} {

@@ -1,5 +1,5 @@
 {{- if eq $.N 1}}
-// region: 0
+// region 0
 
 type FnSig0R[R any] struct {
 	RV0 R
@@ -18,7 +18,7 @@ func Signature0R2[R0, R1 any](fn func() (R0, R1)) (s FnSig0R2[R0, R1]) {
 	return
 }
 {{end}}
-// region: {{.N}}
+// region {{.N}}
 
 type FnSig{{.N}}[{{template "Gen" .}}] struct {
 	{{- if $.Last}}
