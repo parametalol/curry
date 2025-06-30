@@ -20,7 +20,7 @@ func Equal[T comparable](expected, actual T) Assertion {
 	return func() (bool, any, any) { return expected == actual, expected, actual }
 }
 
-func EqualSlices[U []T, T comparable](expected, actual U) Assertion {
+func EqualSlices[U comparable](expected, actual []U) Assertion {
 	return EqualFunc(expected, actual, slices.Equal)
 }
 
